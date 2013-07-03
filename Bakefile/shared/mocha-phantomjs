@@ -2,7 +2,21 @@
 
 
 tmpfile=`mktemp /tmp/XXXXXX.html`
-echo $PWD/node_modules/mocha/mocha.js
+while getopts "u:s:t:" opt; do
+  case $opt in
+    u)
+      ui=$OPTARG
+      ;;
+    s)
+      src=$OPTARG
+      ;;
+    t)
+      test=$OPTARG
+      ;;
+  esac
+done
+
+
 echo "<html>
   <head>
     <meta charset='utf-8' />
@@ -11,10 +25,11 @@ echo "<html>
     <div id='mocha'></div>
     <script src='$PWD/node_modules/mocha/mocha.js'></script>
     <script src='$PWD/node_modules/expect.js/expect.js'></script>
-    <script>mocha.ui('bdd')</script>
-    <script src='$PWD/test/tests.js'></script>
-    <script>mochaPhantomJS.run();</script>
+    <script>mocha.ui('$ui')</script>" >$tmpfile
+find $PWD/$src | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
+find $PWD/$test | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
+echo "<script>mochaPhantomJS.run();</script>
   </body>
-</html>" >"$tmpfile"
+</html>" >>"$tmpfile"
 node_modules/.bin/mocha-phantomjs "$tmpfile"
-rm "$tmpfile"
+rm $tmpfile
