@@ -1,9 +1,3 @@
-var Color = {
-  rgb: function(r, g, b){
-    return [r, g, b];
-  }
-};
-
 function ImagePixels(domImage){
   if(!(this instanceof ImagePixels)) {
     return new ImagePixels(domImage);
