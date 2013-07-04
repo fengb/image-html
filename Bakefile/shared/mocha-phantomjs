@@ -26,8 +26,8 @@ echo "<html>
     <script src='$PWD/node_modules/mocha/mocha.js'></script>
     <script src='$PWD/node_modules/expect.js/expect.js'></script>
     <script>mocha.ui('$ui')</script>" >$tmpfile
-find $PWD/$src | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
-find $PWD/$test | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
+find $PWD/$src -type f | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
+find $PWD/$test -type f | xargs -I {} echo "<script src='{}'></script>" >>$tmpfile
 echo "<script>mochaPhantomJS.run();</script>
   </body>
 </html>" >>"$tmpfile"
