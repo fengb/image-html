@@ -1,16 +1,25 @@
 describe('Color', function(){
   describe('.rgb()', function(){
-    before(function(){
-      this.r = 1;
-      this.g = 2;
-      this.b = 3;
-      this.color = Color.rgb(this.r, this.g, this.b);
+    it('has correct rgb values', function(){
+      var color = Color.rgb(1, 2, 3);
+      expect(color.r).to.equal(1);
+      expect(color.g).to.equal(2);
+      expect(color.b).to.equal(3);
+    });
+  });
+
+  describe('.str()', function(){
+    it('is equivalent to rgb', function(){
+      var color = Color.str('010203');
+      var rgb = Color.rgb(1, 2, 3);
+      expect(color).to.eql(rgb);
     });
 
     it('has correct rgb values', function(){
-      expect(this.color.r).to.equal(this.r);
-      expect(this.color.g).to.equal(this.g);
-      expect(this.color.b).to.equal(this.b);
+      var color = Color.str('010203');
+      expect(color.r).to.equal(1);
+      expect(color.g).to.equal(2);
+      expect(color.b).to.equal(3);
     });
   });
 });
