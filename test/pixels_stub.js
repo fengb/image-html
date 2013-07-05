@@ -6,7 +6,7 @@ Pixels.stub = function(arrayHexes){
       if(raw[x] === undefined){
         raw[x] = [];
       }
-      raw[x][y] = Color.str(hexes[x]);
+      raw[x][y] = Color.hex(hexes[x]);
     }
   }
   return new Pixels(raw);
@@ -27,7 +27,7 @@ describe('Pixels.stub()', function(){
   });
 
   it('gets correct values', function(){
-    expect(this.inst.get(0, 1)).to.eql(Color.str('333333'));
-    expect(this.inst.get(2, 0)).to.eql(Color.str('222222'));
+    expect(this.inst.get(0, 1)).to.eql(Color.hex('333333'));
+    expect(this.inst.get(2, 0)).to.eql(Color.hex('222222'));
   });
 });

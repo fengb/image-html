@@ -20,33 +20,33 @@ describe('Pixels', function(){
     });
 
     describe('#get()', function(){
-      it('is Color.str("000000") for x=0', function(){
+      it('is Color.hex("000000") for x=0', function(){
         for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(0, y)).to.eql(Color.str('000000'));
+          expect(this.inst.get(0, y)).to.eql(Color.hex('000000'));
         }
       });
 
-      it('is Color.str("ff0000") for x=1', function(){
+      it('is Color.hex("ff0000") for x=1', function(){
         for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(1, y)).to.eql(Color.str('ff0000'));
+          expect(this.inst.get(1, y)).to.eql(Color.hex('ff0000'));
         }
       });
 
-      it('is Color.str("00ff00") for x=2', function(){
+      it('is Color.hex("00ff00") for x=2', function(){
         for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(2, y)).to.eql(Color.str('00ff00'));
+          expect(this.inst.get(2, y)).to.eql(Color.hex('00ff00'));
         }
       });
 
-      it('is Color.str("0000ff") for x=3', function(){
+      it('is Color.hex("0000ff") for x=3', function(){
         for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(3, y)).to.eql(Color.str('0000ff'));
+          expect(this.inst.get(3, y)).to.eql(Color.hex('0000ff'));
         }
       });
 
-      it('is Color.str("ffffff") for x=4', function(){
+      it('is Color.hex("ffffff") for x=4', function(){
         for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(4, y)).to.eql(Color.str('ffffff'));
+          expect(this.inst.get(4, y)).to.eql(Color.hex('ffffff'));
         }
       });
     });

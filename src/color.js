@@ -7,7 +7,7 @@ var Color = {
     };
   },
 
-  str: function(raw){
+  hex: function(raw){
     return {
       r: parseInt(raw.substring(0, 2), 16),
       g: parseInt(raw.substring(2, 4), 16),
