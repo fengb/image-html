@@ -1,10 +1,10 @@
-function ImagePixels(colorsMatrix){
+function Pixels(colorsMatrix){
   this._raw = colorsMatrix;
   this.width = colorsMatrix.length;
   this.height = colorsMatrix[0].length;
 }
 
-ImagePixels.fromDom = function(domImage){
+Pixels.fromDom = function(domImage){
   var canvas = document.createElement('canvas');
   canvas.width = domImage.width;
   canvas.height = domImage.height;
@@ -25,9 +25,9 @@ ImagePixels.fromDom = function(domImage){
     }
   }
 
-  return new ImagePixels(colors);
+  return new Pixels(colors);
 };
 
-ImagePixels.prototype.pixel = function(x, y){
+Pixels.prototype.get = function(x, y){
   return this._raw[x][y];
 };
