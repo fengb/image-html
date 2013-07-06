@@ -4,6 +4,10 @@ function Color(r, g, b){
   this.b = b;
 }
 
+Color.prototype.rgb = function(){
+  return [this.r, this.g, this.b];
+};
+
 Color.prototype.hex = function(){
   function hexify(num){
     var ret = num.toString(16);

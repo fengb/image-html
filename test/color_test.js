@@ -1,19 +1,11 @@
 describe('Color', function(){
-  describe('inverse', function(){
-    it('is hex', function(){
-      expect(Color.hex('123456').hex()).to.equal('123456');
-    });
-  });
-
   describe('.rgb()', function(){
     before(function(){
       this.color = Color.rgb(1, 2, 3);
     });
 
     it('has correct rgb values', function(){
-      expect(this.color.r).to.equal(1);
-      expect(this.color.g).to.equal(2);
-      expect(this.color.b).to.equal(3);
+      expect(this.color.rgb()).to.eql([1, 2, 3]);
     });
 
     it('has the correct hex value', function(){
@@ -21,11 +13,23 @@ describe('Color', function(){
     });
   });
 
-  describe('.hex()', function(){
-    it('is equivalent to rgb', function(){
-      var color = Color.hex('010203');
-      var rgb = Color.rgb(1, 2, 3);
-      expect(color).to.eql(rgb);
+  describe('inverse', function(){
+    it('is rgb', function(){
+      expect(Color.rgb(2, 1, 3).rgb()).to.eql([2, 1, 3]);
+    });
+
+    it('is hex', function(){
+      expect(Color.hex('123456').hex()).to.equal('123456');
+    });
+  });
+
+  describe('identity', function(){
+    before(function(){
+      this.baseline = Color.rgb(9, 6, 3);
+    });
+
+    it('is identical to hex', function(){
+      expect(Color.hex('090603')).to.eql(this.baseline);
     });
   });
 });
