@@ -3,15 +3,14 @@ describe('Pixels', function(){
     before(function(done){
       var self = this;
 
-      img = new Image();
       /* Image is 5 vertical lines at 5px each: black-red-green-blue-white */
-      img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAM'+
-                'AAAC6sdbXAAAAGFBMVEUAAAAAAP8A/wD/AAD////AAAAAAAMAAACUibU7'+
-                'AAAAEUlEQVQImWNgYGZiZGHAQQIAAu4AMx4cLS4AAAAASUVORK5CYII=';
-      img.onload = function(){
-        self.inst = Pixels.fromDom(img);
+      var base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAMAAAC6sdbXAAAAGF'+
+                   'BMVEUAAAAAAP8A/wD/AAD////AAAAAAAMAAACUibU7AAAAEUlE'+
+                   'QVQImWNgYGZiZGHAQQIAAu4AMx4cLS4AAAAASUVORK5CYII=';
+      Pixels.fromBase64async(base64, function(pixels){
+        self.inst = pixels;
         done();
-      };
+      });
     });
 
     it('is 5px by 5px', function(){

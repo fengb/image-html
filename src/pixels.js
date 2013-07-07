@@ -4,6 +4,14 @@ function Pixels(colorsMatrix){
   this.height = colorsMatrix[0].length;
 }
 
+Pixels.fromBase64async = function(base64, onload){
+  var img = new Image();
+  img.onload = function(){
+    onload(Pixels.fromDom(img));
+  };
+  img.src = format('data:image/png;base64,{0}', base64);
+};
+
 Pixels.fromDom = function(domImage){
   var canvas = document.createElement('canvas');
   canvas.width = domImage.width;
