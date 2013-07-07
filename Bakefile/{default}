@@ -1,4 +1,5 @@
 #!/bin/bash
 
 
+$BAKE jshint
 $BAKE test
