@@ -1,5 +1,7 @@
 var ImageHtml = window.ImageHtml = {
-  run: function(pixels, id){
+  dom: function(image, id){
+    var pixels = Pixels.fromDom(image);
+
     return {
       css: function(){
         return format('#{0} { border-spacing: 0; }' +

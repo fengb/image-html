@@ -20,13 +20,15 @@ fs.list('src').forEach(function(filename){
 
 
 page.evaluate(function(imageBase64){
-  Pixels.fromBase64async(imageBase64, function(pixels){
-    var out = ImageHtml.run(pixels, 'a');
+  var img = new Image();
+  img.onload = function(){
+    var out = ImageHtml.dom(img, 'a');
     window.output = {
       css: out.css(),
       html: out.html()
     };
-  });
+  };
+  img.src = 'data:image/png;base64,' + imageBase64;
 }, imageBase64);
 
 
