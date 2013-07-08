@@ -1,6 +1,11 @@
 var ImageHtml = {
   run: function(pixels, id){
     return {
+      css: function(){
+        return format('#{0} { border-collapse: collapse; }' +
+                      '#{0} * { width: 1px; height: 1px; }', id);
+      },
+
       html: function(){
         var ret = format('<table id="{0}">', id);
         for(var x=0; x < pixels.width; x++){

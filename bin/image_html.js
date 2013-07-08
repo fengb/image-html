@@ -21,8 +21,9 @@ fs.list('src').forEach(function(filename){
 
 page.evaluate(function(imageBase64){
   Pixels.fromBase64async(imageBase64, function(pixels){
-    var out = ImageHtml.run(pixels, '123');
+    var out = ImageHtml.run(pixels, 'a');
     window.output = {
+      css: out.css(),
       html: out.html()
     };
   });
@@ -35,7 +36,16 @@ setInterval(function(){
   });
 
   if(output) {
-    console.log(output.html);
+    var outfile = sys.args[2] ? fs.open(sys.args[2], 'w') : sys.stdout;
+    outfile.write('<html>\n');
+    outfile.write('<head>\n');
+    outfile.write('<style>\n');
+    outfile.write(output.css);
+    outfile.write('</style>\n');
+    outfile.write('</head>\n');
+    outfile.write('<body>\n');
+    outfile.write(output.html);
+    outfile.write('</body></html>\n');
     phantom.exit();
   }
 }, 100);
