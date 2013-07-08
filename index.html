@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Image&rarr;Html</title>
+  </head>
+  <body>
+    <section>
+      <h1>Source</h1>
+      <input id='upload' type='file' />
+      <img id='image' />
+    </section>
+    <section>
+      <h1>Out</h1>
+      <section>
+        <h2>CSS</h2>
+        <p id='css' />
+      </section>
+      <section>
+        <h2>HTML</h2>
+        <p id='html' />
+      </section>
+    </section>
+    <script src='image-html.js'></script>
+    <script>
+      !function(){
+        var upload = document.getElementById('upload');
+        var img = document.getElementById('image');
+        upload.onchange = function(){
+          var reader = new FileReader();
+          reader.onload = function(evt){
+            img.src = evt.target.result;
+          }
+          reader.readAsDataURL(upload.files[0]);
+        };
+
+        var output = {
+          css: document.getElementById('css'),
+          html: document.getElementById('html')
+        };
+        img.onload = function(){
+          var out = ImageHtml.dom(img, 'a');
+          output.css.textContent = out.css();
+          output.html.textContent = out.html();
+        };
+      }();
+    </script>
+  </body>
+</html>
