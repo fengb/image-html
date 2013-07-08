@@ -2,7 +2,7 @@
 
 
 mkdir -p dist
-outfile=dist/image_html.js
+outfile=dist/image-html.js
 
 
 function var(){
