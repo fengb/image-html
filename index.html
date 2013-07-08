@@ -3,21 +3,50 @@
   <head>
     <meta charset='utf-8' />
     <title>Image&rarr;Html</title>
+    <style>
+      h1, h2 { margin: 0 0 20px; }
+
+      section.source {
+        float: left;
+        width: 30%;
+      }
+      img {
+        min-width: 50%;
+        max-width: 98%;
+      }
+
+      section.out {
+        margin-left: 30%;
+      }
+
+      p {
+        font-family: monospace;
+        border: 2px solid #888;
+        overflow: scroll;
+      }
+
+      p#css { height: 200px; }
+      p#html { height: 400px; }
+    </style>
   </head>
   <body>
-    <section>
-      <h1>Source</h1>
-      <input id='upload' type='file' />
-      <img id='image' />
-    </section>
-    <section>
-      <h1>Out</h1>
+    <section class='source'>
       <section>
-        <h2>CSS</h2>
+        <h1>Source</h1>
+        <input id='upload' type='file' />
+      </section>
+      <section>
+        <h1>Preview</h1>
+        <img id='image' />
+      </section>
+    </section>
+    <section class='out'>
+      <section>
+        <h1>CSS</h1>
         <p id='css' />
       </section>
       <section>
-        <h2>HTML</h2>
+        <h1>HTML</h1>
         <p id='html' />
       </section>
     </section>
