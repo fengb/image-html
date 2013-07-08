@@ -4,49 +4,33 @@ describe('Pixels', function(){
       var self = this;
 
       /* Image is 5 vertical lines at 5px each: black-red-green-blue-white */
-      var base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAMAAAC6sdbXAAAAGF'+
-                   'BMVEUAAAAAAP8A/wD/AAD////AAAAAAAMAAACUibU7AAAAEUlE'+
-                   'QVQImWNgYGZiZGHAQQIAAu4AMx4cLS4AAAAASUVORK5CYII=';
+      var base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAADCAMAAABs6DXKAAAAGF'+
+                   'BMVEUAAAAAAP8A/wD/AAD////AAAAAAAAAAACGPBrVAAAAEElE'+
+                   'QVQImWNgYGZiZGFAIgEBDgAfrzCWxwAAAABJRU5ErkJggg==';
       Pixels.fromBase64async(base64, function(pixels){
         self.inst = pixels;
         done();
       });
     });
 
-    it('is 5px by 5px', function(){
+    it('is 5px by 3px', function(){
       expect(this.inst.width).to.be(5);
-      expect(this.inst.height).to.be(5);
+      expect(this.inst.height).to.be(3);
     });
 
     describe('#get()', function(){
-      it('is Color.hex("000000") for x=0', function(){
-        for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(0, y)).to.eql(Color.hex('000000'));
-        }
-      });
-
-      it('is Color.hex("ff0000") for x=1', function(){
-        for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(1, y)).to.eql(Color.hex('ff0000'));
-        }
-      });
-
-      it('is Color.hex("00ff00") for x=2', function(){
-        for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(2, y)).to.eql(Color.hex('00ff00'));
-        }
-      });
-
-      it('is Color.hex("0000ff") for x=3', function(){
-        for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(3, y)).to.eql(Color.hex('0000ff'));
-        }
-      });
-
-      it('is Color.hex("ffffff") for x=4', function(){
-        for(var y=0; y < this.inst.height; y++){
-          expect(this.inst.get(4, y)).to.eql(Color.hex('ffffff'));
-        }
+      [[0, '000000'],
+       [1, 'ff0000'],
+       [2, '00ff00'],
+       [3, '0000ff'],
+       [4, 'ffffff']].forEach(function(tup){
+        var x = tup[0];
+        var color = tup[1];
+        [0, 1, 2].forEach(function(y){
+          it(format('is Color.hex("{0}") for ({1}, {2})', color, x, y), function(){
+            expect(this.inst.get(x, y).hex()).to.eql(color);
+          });
+        });
       });
     });
   });
