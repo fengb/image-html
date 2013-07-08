@@ -29,7 +29,7 @@ Pixels.fromDom = function(domImage){
       var g = imageData[i+1];
       var b = imageData[i+2];
       var a = imageData[i+3];
-      colors[x][y] = Color.rgb(r,g,b);
+      colors[x][y] = Color.rgb(r,g,b,a);
     }
   }
 

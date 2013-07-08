@@ -1,4 +1,4 @@
-var ImageHtml = {
+var ImageHtml = window.ImageHtml = {
   run: function(pixels, id){
     return {
       css: function(){

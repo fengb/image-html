@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+mkdir -p dist
+outfile=dist/image_html.js
+
+
+function var(){
+  sed -e "/$1/!d" -e 's;.*: *"\(.*\)".*;\1;' package.json
+}
+
+
+echo "/*! `var title` v`var version` - `var homepage` */" >$outfile
+node_modules/.bin/uglifyjs `find src -type f` --enclose "window:window" \
+                           --compress --mangle >>$outfile
