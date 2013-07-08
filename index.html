@@ -10,10 +10,11 @@
         float: left;
         width: 30%;
       }
-      img {
+      img#display {
         min-width: 50%;
         max-width: 98%;
       }
+      img#raw { display: none; }
 
       section.out {
         margin-left: 30%;
@@ -37,7 +38,8 @@
       </section>
       <section>
         <h1>Preview</h1>
-        <img id='image' />
+        <img id='display' />
+        <img id='raw' />
       </section>
     </section>
     <section class='out'>
@@ -54,11 +56,15 @@
     <script>
       !function(){
         var upload = document.getElementById('upload');
-        var img = document.getElementById('image');
+        var img = {
+          display: document.getElementById('display'),
+          raw: document.getElementById('raw')
+        };
         upload.onchange = function(){
           var reader = new FileReader();
           reader.onload = function(evt){
-            img.src = evt.target.result;
+            img.display.src = evt.target.result;
+            img.raw.src = evt.target.result;
           }
           reader.readAsDataURL(upload.files[0]);
         };
@@ -67,8 +73,8 @@
           css: document.getElementById('css'),
           html: document.getElementById('html')
         };
-        img.onload = function(){
-          var out = ImageHtml.dom(img, 'a');
+        img.raw.onload = function(){
+          var out = ImageHtml.dom(img.raw, 'a');
           output.css.textContent = out.css();
           output.html.textContent = out.html();
         };
