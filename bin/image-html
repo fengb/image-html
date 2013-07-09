@@ -11,12 +11,19 @@ var imageBase64 = btoa(file.read());
 file.close();
 
 
-fs.list('src').forEach(function(filename){
-  var path = 'src/' + filename;
-  if(fs.isFile(path)){
-    page.injectJs(path);
-  }
-});
+function load(dir){
+  fs.list(dir).forEach(function(filename){
+    var path = dir + '/' + filename;
+    if(filename.match(/^\./)){
+      //Do nothing
+    } else if(fs.isFile(path)){
+      page.injectJs(path);
+    } else if(fs.isDirectory(path)){
+      load(path);
+    }
+  });
+}
+load('src');
 
 
 page.evaluate(function(imageBase64){
