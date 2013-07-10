@@ -1,4 +1,4 @@
-ImageHtml.outputs.pi = function(pixels, id){
+ImageHtml.outputs.baseline = function(pixels, id){
   return {
     css: function(){
       return format('#{0} { width: {1}px; margin: 0; }' +
