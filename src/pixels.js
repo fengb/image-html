@@ -1,7 +1,10 @@
 function Pixels(colorsMatrix){
-  this._raw = colorsMatrix;
-  this.width = colorsMatrix.length;
-  this.height = colorsMatrix[0].length;
+  this.rows = colorsMatrix.length;
+  this.cols = colorsMatrix[0].length;
+
+  for(var row=0; row < this.rows; row++){
+    this[row] = colorsMatrix[row];
+  }
 }
 
 Pixels.fromDom = function(domImage){
@@ -13,21 +16,17 @@ Pixels.fromDom = function(domImage){
   var imageData = ctx.getImageData(0, 0, domImage.width, domImage.height).data;
 
   var colors = [];
-  for(var x=0; x < domImage.width; x++){
-    colors[x] = [];
-    for(var y=0; y < domImage.height; y++){
-      var i = (x + y*domImage.width) * 4;
+  for(var row=0; row < domImage.height; row++){
+    colors[row] = [];
+    for(var col=0; col < domImage.width; col++){
+      var i = (row*domImage.width + col) * 4;
       var r = imageData[i];
       var g = imageData[i+1];
       var b = imageData[i+2];
       var a = imageData[i+3];
-      colors[x][y] = Color.rgb(r,g,b,a);
+      colors[row][col] = Color.rgb(r,g,b,a);
     }
   }
 
   return new Pixels(colors);
-};
-
-Pixels.prototype.get = function(x, y){
-  return this._raw[x][y];
 };

@@ -1,15 +1,13 @@
 Pixels.stub = function(arrayHexes){
-  var raw = [];
-  for(var y=0; y < arrayHexes.length; y++){
-    var hexes = arrayHexes[y].split(' ');
-    for(var x=0; x < hexes.length; x++){
-      if(raw[x] === undefined){
-        raw[x] = [];
-      }
-      raw[x][y] = Color.hex(hexes[x]);
+  var matrix = [];
+  for(var row=0; row < arrayHexes.length; row++){
+    matrix[row] = [];
+    var hexes = arrayHexes[row].split(' ');
+    for(var col=0; col < hexes.length; col++){
+      matrix[row][col] = Color.hex(hexes[col]);
     }
   }
-  return new Pixels(raw);
+  return new Pixels(matrix);
 };
 
 
@@ -22,12 +20,12 @@ describe('Pixels.stub()', function(){
   });
 
   it('has correct dimensions', function(){
-    expect(this.inst.width).to.equal(3);
-    expect(this.inst.height).to.equal(2);
+    expect(this.inst.cols).to.equal(3);
+    expect(this.inst.rows).to.equal(2);
   });
 
   it('gets correct values', function(){
-    expect(this.inst.get(0, 1)).to.eql(Color.hex('333333'));
-    expect(this.inst.get(2, 0)).to.eql(Color.hex('222222'));
+    expect(this.inst[1][0]).to.eql(Color.hex('333333'));
+    expect(this.inst[0][2]).to.eql(Color.hex('222222'));
   });
 });
