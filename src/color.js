@@ -4,6 +4,13 @@ function Color(r, g, b){
   this.b = b;
 }
 
+Color.prototype.equals = function(that){
+  return this.constructor === (that && that.constructor) &&
+         this.r === that.r &&
+         this.g === that.g &&
+         this.b === that.b;
+};
+
 Color.prototype.rgb = function(){
   return [this.r, this.g, this.b];
 };

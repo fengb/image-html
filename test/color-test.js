@@ -23,13 +23,21 @@ describe('Color', function(){
     });
   });
 
-  describe('identity', function(){
+  describe('#equals()', function(){
     before(function(){
       this.baseline = Color.rgb(9, 6, 3);
     });
 
-    it('is identical to hex', function(){
-      expect(Color.hex('090603')).to.eql(this.baseline);
+    it('does not equals null', function(){
+      expect(this.baseline.equals(null)).to.be(false);
+    });
+
+    it('equals self', function(){
+      expect(this.baseline.equals(Color.rgb(9, 6, 3))).to.be(true);
+    });
+
+    it('equals hex equivalent', function(){
+      expect(this.baseline.equals(Color.hex('090603'))).to.be(true);
     });
   });
 });
