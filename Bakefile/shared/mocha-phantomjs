@@ -13,6 +13,9 @@ while getopts "u:s:t:" opt; do
     t)
       test=$OPTARG
       ;;
+    r)
+      reporter=$OPTARG
+      ;;
   esac
 done
 
@@ -31,5 +34,5 @@ find $PWD/$test -type f | xargs -I {} echo "<script src='{}'></script>" >>$tmpfi
 echo "<script>mochaPhantomJS.run();</script>
   </body>
 </html>" >>"$tmpfile"
-node_modules/.bin/mocha-phantomjs "$tmpfile"
+node_modules/.bin/mocha-phantomjs "$tmpfile" --reporter ${r:-dot}
 rm $tmpfile
