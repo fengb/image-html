@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+dir=func
+
+mkdir -p $dir
+ls src/outputs | sed 's/\.js$//g' | while read output; do
+  bin/image-html -o $output example.png $dir/$output.html
+done
