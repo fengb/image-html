@@ -7,7 +7,7 @@ var ImageHtml = window.ImageHtml = {
         keys.push(key);
       }
     }
-    return keys;
+    return keys.sort();
   },
 
   dom: function(image, id, output){
