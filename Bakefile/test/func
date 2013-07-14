@@ -7,7 +7,7 @@ declare -a failed=()
 mkdir -p $dir
 for output in `ls src/outputs | sed 's/\.js$//g'`; do
   bin/image-html -o $output example.png $dir/$output.html
-  $BAKE render $dir/$output.html $dir/$output.png
+  $BAKE render --viewport 200x199 $dir/$output.html $dir/$output.png
   # FIXME: use return status once that is fixed
   status=`node_modules/.bin/imagediff -e example.png $dir/$output.png`
   if [ "$status" != true ]; then

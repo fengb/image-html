@@ -72,7 +72,7 @@ setInterval(function(){
                    output.css,
                    '</style>',
                    '</head>',
-                   '<body>',
+                   '<body style="margin:0">',
                    output.html,
                    '</body>',
                    '</html>'].join('\n'));
