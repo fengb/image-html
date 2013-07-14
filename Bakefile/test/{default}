@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+$BAKE unit
+$BAKE func
