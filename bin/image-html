@@ -1,9 +1,10 @@
-#!/usr/bin/env phantomjs
+#!/usr/bin/env node
 
 
 var fs = require('fs');
-var sys = require('system');
-var page = require('webpage').create();
+var ImageHtml = require('..');
+var Image = require('canvas').Image;
+
 
 
 var opts = function(args){
@@ -15,67 +16,37 @@ var opts = function(args){
           opts.output = args[++i];
           break;
         default:
-          console.log('Unknown switch: ' + args[i]);
-          phantom.exit();
+          throw ('Unknown switch: ' + args[i]);
       }
     } else{
       opts.args.push(args[i]);
     }
   }
   return opts;
-}(sys.args);
+}(process.argv);
 
 
-var file = fs.open(opts.args[0], 'rb');
-var imageBase64 = btoa(file.read());
-file.close();
+var data = fs.readFileSync(opts.args[1]);
 
 
-function load(dir){
-  fs.list(dir).forEach(function(filename){
-    var path = dir + '/' + filename;
-    if(filename.match(/^\./)){
-      //Do nothing
-    } else if(fs.isFile(path)){
-      page.injectJs(path);
-    } else if(fs.isDirectory(path)){
-      load(path);
-    }
+var img = new Image();
+img.src = data;
+var output = ImageHtml.dom(img, 'a', opts.output);
+var html = ['<html>',
+            '<head>',
+            '<style>',
+            output.css(),
+            '</style>',
+            '</head>',
+            '<body style="margin:0">',
+            output.html(),
+            '</body>',
+            '</html>'].join('\n');
+
+if(opts.args[2]){
+  fs.writeFile(opts.args[2], html, function(err){
+    if(err) throw err;
   });
+} else {
+  console.log(html);
 }
-load('src');
-
-
-page.evaluate(function(imageBase64, output){
-  var img = new Image();
-  img.onload = function(){
-    var out = ImageHtml.dom(img, 'a', output);
-    window.output = {
-      css: out.css(),
-      html: out.html()
-    };
-  };
-  img.src = 'data:image/png;base64,' + imageBase64;
-}, imageBase64, opts.output);
-
-
-setInterval(function(){
-  var output = page.evaluate(function(){
-    return window.output;
-  });
-
-  if(output) {
-    var outfile = opts.args[1] ? fs.open(opts.args[1], 'w') : sys.stdout;
-    outfile.write(['<html>',
-                   '<head>',
-                   '<style>',
-                   output.css,
-                   '</style>',
-                   '</head>',
-                   '<body style="margin:0">',
-                   output.html,
-                   '</body>',
-                   '</html>'].join('\n'));
-    phantom.exit();
-  }
-}, 100);

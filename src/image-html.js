@@ -1,9 +1,11 @@
-var ImageHtml = window.ImageHtml = {
+var Pixels = require('./pixels');
+var outputs = require('./outputs');
+
+var ImageHtml = module.exports = {
   outputs: function(){
-    var func = ImageHtml.outputs;
     var keys = [];
-    for(var key in func){
-      if(func.hasOwnProperty(key)){
+    for(var key in outputs){
+      if(outputs.hasOwnProperty(key)){
         keys.push(key);
       }
     }
@@ -13,6 +15,6 @@ var ImageHtml = window.ImageHtml = {
   dom: function(image, id, output){
     output = output || 'segments';
     var pixels = Pixels.fromDom(image);
-    return ImageHtml.outputs[output](pixels, id);
+    return outputs[output](pixels, id);
   }
 };

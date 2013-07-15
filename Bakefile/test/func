@@ -6,6 +6,10 @@ declare -a failed=()
 
 mkdir -p $dir
 for output in `ls src/outputs | sed 's/\.js$//g'`; do
+  if [ "$output" = index ]; then
+    continue
+  fi
+
   bin/image-html -o $output example.png $dir/$output.html
   $BAKE render --viewport 200x199 $dir/$output.html $dir/$output.png
   # FIXME: use return status once that is fixed
