@@ -1,18 +1,19 @@
+var expect = require('expect.js');
+var format = require('../src/util').format;
+var Image = require('canvas').Image;
+var Pixels = require('../src/pixels');
+
+
 describe('Pixels', function(){
   describe('fromDom', function(){
-    before(function(done){
-      var self = this;
-
+    before(function(){
       var img = new Image();
-      img.onload = function(){
-        self.inst = Pixels.fromDom(img);
-        done();
-      };
       /* Image is 5 vertical lines at 3px tall: black-red-green-blue-white */
       img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAADCAMAA'+
                                       'ABs6DXKAAAAGFBMVEUAAAAAAP8A/wD/AAD///'+
                                       '/AAAAAAAAAAACGPBrVAAAAEElEQVQImWNgYGZ'+
                                       'iZGFAIgEBDgAfrzCWxwAAAABJRU5ErkJggg==';
+      this.inst = Pixels.fromDom(img);
     });
 
     it('is 5px wide by 3px tall', function(){

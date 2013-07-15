@@ -1,3 +1,9 @@
+var expect = require('expect.js');
+var PixelSegments = require('../src/pixel-segments');
+var Color = require('../src/color');
+var Pixels = require('./pixels-stub.js');
+
+
 describe('PixelSegments()', function(){
   it('converts sequential elements to single segments', function(){
     var pixels = Pixels.stub(['000000 000000 111111 111111 111111']);

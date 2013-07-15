@@ -1,3 +1,7 @@
+var expect = require('expect.js');
+var format = require('../src/util').format;
+
+
 describe('format()', function() {
   it('based on position', function() {
     var out = format('This is testing {0} for {1}.', 'foo', 'bar');
