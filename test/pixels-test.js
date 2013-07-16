@@ -1,6 +1,6 @@
 var expect = require('expect.js');
 var format = require('../src/util').format;
-var Image = require('canvas').Image;
+var Image = require('canvas-browserify').Image;
 var Pixels = require('../src/pixels');
 
 

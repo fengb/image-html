@@ -3,7 +3,7 @@
 
 var fs = require('fs');
 var ImageHtml = require('..');
-var Image = require('canvas').Image;
+var Image = require('canvas-browserify').Image;
 
 
 
