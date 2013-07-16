@@ -10,9 +10,14 @@ function var(){
   sed -e "/$1/!d" -e 's;.*: *"\(.*\)".*;\1;' package.json
 }
 
+function banner(){
+  echo "/*! `var title` v`var version` - `var homepage` */"
+}
 
-node_modules/.bin/browserify index.js --outfile $outfile
+
+banner >$outfile
+node_modules/.bin/browserify browser.js >>$outfile
 
 
-echo "/*! `var title` v`var version` - `var homepage` */" >$minfile
+banner >$minfile
 node_modules/.bin/uglifyjs $outfile --compress --mangle >>$minfile
