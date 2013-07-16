@@ -1,1 +1,3 @@
-module.exports = require('./src/image-html');
+module.exports = {
+  ImageHtml: require('./src/image-html')
+};
