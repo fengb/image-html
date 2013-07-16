@@ -20,4 +20,4 @@ node_modules/.bin/browserify browser.js >>$outfile
 
 
 banner >$minfile
-node_modules/.bin/uglifyjs $outfile --compress --mangle >>$minfile
+node_modules/.bin/uglifyjs $outfile --mangle --compress warnings=false >>$minfile
