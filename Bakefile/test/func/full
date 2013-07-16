@@ -1,5 +1,4 @@
 #!/bin/bash
 
 
-$BAKE dist
 $BAKE src && $BAKE min
