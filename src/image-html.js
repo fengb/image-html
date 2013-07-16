@@ -1,5 +1,8 @@
 var Pixels = require('./pixels');
-var outputs = require('./outputs');
+var outputs = {
+  baseline: require('./outputs/baseline'),
+  segments: require('./outputs/segments')
+};
 
 var ImageHtml = module.exports = {
   outputs: function(){
