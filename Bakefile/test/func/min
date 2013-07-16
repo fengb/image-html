@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+$BAKE raw bin/image-html-phantomjs min
