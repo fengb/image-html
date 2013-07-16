@@ -12,8 +12,8 @@ var opts = function(args){
   for(var i=1; i < args.length; i++){
     if(args[i][0] == '-'){
       switch(args[i]) {
-        case '-o': case '--output':
-          opts.output = args[++i];
+        case '-f': case '--format':
+          opts.format = args[++i];
           break;
         default:
           throw ('Unknown switch: ' + args[i]);
@@ -31,7 +31,7 @@ var data = fs.readFileSync(opts.args[1]);
 
 var img = new Image();
 img.src = data;
-var output = ImageHtml.dom(img, 'a', opts.output);
+var output = ImageHtml.dom(img, 'a', opts.format);
 var html = ['<html>',
             '<head>',
             '<style>',

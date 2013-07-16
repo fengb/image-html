@@ -14,8 +14,8 @@ var opts = function(args){
         case '-s': case '--script':
           opts.script = args[++i];
           break;
-        case '-o': case '--output':
-          opts.output = args[++i];
+        case '-f': case '--format':
+          opts.format = args[++i];
           break;
         default:
           console.log('Unknown switch: ' + args[i]);
@@ -37,17 +37,17 @@ file.close();
 page.injectJs(opts.script || 'dist/image-html.js');
 
 
-page.evaluate(function(imageBase64, output){
+page.evaluate(function(imageBase64, format){
   var img = new Image();
   img.onload = function(){
-    var out = ImageHtml.dom(img, 'a', output);
+    var out = ImageHtml.dom(img, 'a', format);
     window.output = {
       css: out.css(),
       html: out.html()
     };
   };
   img.src = 'data:image/png;base64,' + imageBase64;
-}, imageBase64, opts.output);
+}, imageBase64, opts.format);
 
 
 setInterval(function(){

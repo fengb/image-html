@@ -6,17 +6,13 @@ dir=tmp/func-$2
 declare -a failed=()
 
 mkdir -p $dir
-for output in `ls src/outputs | sed 's/\.js$//g'`; do
-  if [ "$output" = index ]; then
-    continue
-  fi
-
-  $exe -o $output example.png $dir/$task-$output.html
-  $BAKE render --viewport 200x199 $dir/$task-$output.html $dir/$task-$output.png
+for format in `ls src/formats | sed 's/\.js$//g'`; do
+  $exe --format $format example.png $dir/$task-$format.html
+  $BAKE render --viewport 200x199 $dir/$task-$format.html $dir/$task-$format.png
   # FIXME: use return status once that is fixed
-  status=`node_modules/.bin/imagediff -e example.png $dir/$task-$output.png`
+  status=`node_modules/.bin/imagediff -e example.png $dir/$task-$format.png`
   if [ "$status" != true ]; then
-    failed=("${failed[@]}" "$output")
+    failed=("${failed[@]}" "$format")
   fi
 done
 

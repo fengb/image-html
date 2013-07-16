@@ -1,23 +1,17 @@
 var Pixels = require('./pixels');
-var outputs = {
-  baseline: require('./outputs/baseline'),
-  segments: require('./outputs/segments')
+var formats = {
+  baseline: require('./formats/baseline'),
+  segments: require('./formats/segments')
 };
 
 var ImageHtml = module.exports = {
-  outputs: function(){
-    var keys = [];
-    for(var key in outputs){
-      if(outputs.hasOwnProperty(key)){
-        keys.push(key);
-      }
-    }
-    return keys.sort();
+  formats: function(){
+    return Object.keys(formats);
   },
 
-  dom: function(image, id, output){
-    output = output || 'segments';
+  dom: function(image, id, format){
+    format = format || 'segments';
     var pixels = Pixels.fromDom(image);
-    return outputs[output](pixels, id);
+    return formats[format](pixels, id);
   }
 };

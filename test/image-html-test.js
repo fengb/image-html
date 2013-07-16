@@ -3,9 +3,9 @@ var ImageHtml = require('../src/image-html');
 
 
 describe('ImageHtml', function(){
-  describe('.outputs', function(){
+  describe('.formats', function(){
     it('returns the keys', function(){
-      expect(ImageHtml.outputs()).to.eql(['baseline', 'segments']);
+      expect(ImageHtml.formats()).to.eql(['baseline', 'segments']);
     });
   });
 });
