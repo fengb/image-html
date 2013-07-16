@@ -1,4 +1,8 @@
-ImageHtml.outputs.segments = function(pixels, id){
+var format = require('../util.js').format;
+var PixelSegments = require('../pixel-segments.js');
+
+
+module.exports = function(pixels, id){
   var pixelSegments = PixelSegments(pixels);
 
   return {

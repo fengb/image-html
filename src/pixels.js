@@ -1,16 +1,17 @@
-function Pixels(colorsMatrix){
+var Color = require('./color');
+var Canvas = require('canvas-browserify');
+
+var Pixels = module.exports = function(colorsMatrix){
   this.rows = colorsMatrix.length;
   this.cols = colorsMatrix[0].length;
 
   for(var row=0; row < this.rows; row++){
     this[row] = colorsMatrix[row];
   }
-}
+};
 
 Pixels.fromDom = function(domImage){
-  var canvas = document.createElement('canvas');
-  canvas.width = domImage.width;
-  canvas.height = domImage.height;
+  var canvas = new Canvas(domImage.width, domImage.height);
   var ctx = canvas.getContext('2d');
   ctx.drawImage(domImage, 0, 0);
   var imageData = ctx.getImageData(0, 0, domImage.width, domImage.height).data;

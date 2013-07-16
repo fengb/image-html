@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-$BAKE shared/mocha-phantomjs -u bdd -s src -t test
+node_modules/.bin/mocha

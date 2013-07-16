@@ -1,8 +1,8 @@
-function Color(r, g, b){
+var Color = module.exports = function(r, g, b){
   this.r = r;
   this.g = g;
   this.b = b;
-}
+};
 
 Color.prototype.equals = function(that){
   return this.constructor === (that && that.constructor) &&

@@ -1,4 +1,4 @@
-function PixelSegments(pixels){
+module.exports = function(pixels){
   var rows = [];
   for(var row=0; row < pixels.rows; row++){
     rows[row] = [];
@@ -13,4 +13,4 @@ function PixelSegments(pixels){
     }
   }
   return rows;
-}
+};

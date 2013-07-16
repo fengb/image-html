@@ -1,3 +1,7 @@
+var expect = require('expect.js');
+var Color = require('../src/color');
+
+
 describe('Color', function(){
   describe('.rgb()', function(){
     before(function(){

@@ -1,4 +1,7 @@
-ImageHtml.outputs.baseline = function(pixels, id){
+var format = require('../util.js').format;
+
+
+module.exports = function(pixels, id){
   return {
     css: function(){
       return format('#{0} { width: {1}px; margin: 0; }' +

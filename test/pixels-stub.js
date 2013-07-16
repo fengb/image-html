@@ -1,3 +1,8 @@
+var expect = require('expect.js');
+var Pixels = module.exports = require('../src/pixels');
+var Color = require('../src/color');
+
+
 Pixels.stub = function(arrayHexes){
   var matrix = [];
   for(var row=0; row < arrayHexes.length; row++){

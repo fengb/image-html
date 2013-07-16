@@ -3,13 +3,21 @@
 
 mkdir -p dist
 outfile=dist/image-html.js
+minfile=dist/image-html.min.js
 
 
 function var(){
   sed -e "/$1/!d" -e 's;.*: *"\(.*\)".*;\1;' package.json
 }
 
+function banner(){
+  echo "/*! `var title` v`var version` - `var homepage` */"
+}
 
-echo "/*! `var title` v`var version` - `var homepage` */" >$outfile
-node_modules/.bin/uglifyjs `find src -type f` --enclose "window:window" \
-                           --compress --mangle >>$outfile
+
+banner >$outfile
+node_modules/.bin/browserify browser.js >>$outfile
+
+
+banner >$minfile
+node_modules/.bin/uglifyjs $outfile --compress --mangle >>$minfile

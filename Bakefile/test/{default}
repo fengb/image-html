@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-$BAKE unit && $BAKE func
+$BAKE jshint && $BAKE unit && $BAKE test/func
