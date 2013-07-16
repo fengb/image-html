@@ -15,12 +15,12 @@ Color.prototype.rgb = function(){
   return [this.r, this.g, this.b];
 };
 
-Color.prototype.hex = function(){
-  function hexify(num){
-    var ret = num.toString(16);
-    return ret.length == 1 ? '0' + ret : ret;
-  }
+function hexify(num){
+  var ret = num.toString(16);
+  return ret.length == 1 ? '0' + ret : ret;
+}
 
+Color.prototype.hex = function(){
   return hexify(this.r) + hexify(this.g) + hexify(this.b);
 };
 
