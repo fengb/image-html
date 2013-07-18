@@ -3,13 +3,21 @@ var CssClasser = module.exports = function(styles){
   var counter = util.counter(styles);
   var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
 
-  this.classes = {};
+  this._classes = {};
   for(var key in counter){
     var val = counter[key];
     if(counter[key] > 1){
-      this.classes[key] = generator();
+      this._classes[key] = generator();
     }
   }
+};
+
+CssClasser.prototype.classes = function(prepend){
+  var ret = [];
+  for(var c in this._classes){
+    ret.push(util.format('{0} {1} { {2} }', prepend, this._classes[c], c));
+  }
+  return ret;
 };
 
 CssClasser.prototype.attrsFor = function(searchStyles){
@@ -17,8 +25,8 @@ CssClasser.prototype.attrsFor = function(searchStyles){
   var styles = [];
   for(var i=0; i < searchStyles.length; i++){
     var style = searchStyles[i];
-    if(this.classes[style]){
-      classes.push(this.classes[style]);
+    if(this._classes[style]){
+      classes.push(this._classes[style]);
     } else {
       styles.push(style);
     }
