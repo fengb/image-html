@@ -13,5 +13,14 @@ module.exports = {
 
       return s;
     };
-  }()
+  }(),
+
+  counter: function(array){
+    var ret = {};
+    for(var i=0; i < array.length; i++){
+      var val = array[i];
+      ret[val] = (ret[val] || 0) + 1;
+    }
+    return ret;
+  }
 };
