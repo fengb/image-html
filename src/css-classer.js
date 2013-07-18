@@ -1,6 +1,22 @@
 var util = require('./util');
-var CssClasser = module.exports = function(styles){
-  var counter = util.counter(styles);
+
+
+function stringifyStyles(styleDict){
+  var stringified = [];
+  for(var key in styleDict){
+    stringified.push(util.format('{0}: {1}', key, styleDict[key]));
+  }
+  return stringified;
+}
+
+
+var CssClasser = module.exports = function(styleDicts){
+  var flatStyles = [];
+  styleDicts.forEach(function(styleDict){
+    flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
+  });
+
+  var counter = util.counter(flatStyles);
   var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
   var sortedCounter = util.objToArray(counter).sort(function(a, b){
     return a[1] < b[1] ?  1 :
@@ -26,6 +42,8 @@ CssClasser.prototype.classes = function(prepend){
 };
 
 CssClasser.prototype.attrsFor = function(searchStyles){
+  searchStyles = stringifyStyles(searchStyles);
+
   var classes = [];
   var styles = [];
   for(var i=0; i < searchStyles.length; i++){

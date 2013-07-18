@@ -13,11 +13,9 @@ module.exports = function(pixels, id){
   var styles = [];
   for(var i=0; i < unrolledSegments.length; i++){
     var segment = unrolledSegments[i];
-    segment.styles = [format('background: #{0}', segment.value.hex())];
-    if(segment.length > 1){
-      segment.styles.push(format('width: {0}px', segment.length));
-    }
-    styles.push.apply(styles, segment.styles);
+    segment.styles = {background: '#' + segment.value.hex(),
+                      width: segment.length + 'px'};
+    styles.push(segment.styles);
   }
   var classer = new CssClasser(styles);
 
