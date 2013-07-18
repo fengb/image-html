@@ -22,5 +22,26 @@ module.exports = {
       ret[val] = (ret[val] || 0) + 1;
     }
     return ret;
+  },
+
+  generator: function(chars){
+    var indexes = [];
+
+    return function(){
+      var i = 0;
+      while(true){
+        if(i >= indexes.length){
+          indexes.push(0);
+          break;
+        }
+
+        if(++indexes[i] < chars.length){
+          break;
+        }
+
+        indexes[i++] = 0;
+      }
+      return indexes.map(function(i){ return chars[i]; }).join('');
+    };
   }
 };

@@ -29,3 +29,34 @@ describe('counter()', function(){
     expect(counter).to.have.property('beta', 1);
   });
 });
+
+describe('generator()', function(){
+  it('iterates through chars', function(){
+    var generator = util.generator('abcdefg');
+    expect(generator()).to.equal('a');
+    expect(generator()).to.equal('b');
+    expect(generator()).to.equal('c');
+    expect(generator()).to.equal('d');
+    expect(generator()).to.equal('e');
+    expect(generator()).to.equal('f');
+    expect(generator()).to.equal('g');
+  });
+
+  it('appends chars if no more unique single chars', function(){
+    var generator = util.generator('a');
+    expect(generator()).to.equal('a');
+    expect(generator()).to.equal('aa');
+    expect(generator()).to.equal('aaa');
+    expect(generator()).to.equal('aaaa');
+  });
+
+  it('does fancy combination of both', function(){
+    var generator = util.generator('ab');
+    expect(generator()).to.equal('a');
+    expect(generator()).to.equal('b');
+    expect(generator()).to.equal('aa');
+    expect(generator()).to.equal('ba');
+    expect(generator()).to.equal('ab');
+    expect(generator()).to.equal('bb');
+  });
+});
