@@ -24,6 +24,14 @@ module.exports = {
     return ret;
   },
 
+  objToArray: function(obj){
+    var array = [];
+    for(var key in obj){
+      array.push([key, obj[key]]);
+    }
+    return array;
+  },
+
   generator: function(chars){
     var indexes = [];
 

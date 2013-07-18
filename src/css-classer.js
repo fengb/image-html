@@ -2,11 +2,16 @@ var util = require('./util');
 var CssClasser = module.exports = function(styles){
   var counter = util.counter(styles);
   var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
+  var sortedCounter = util.objToArray(counter).sort(function(a, b){
+    return a[1] < b[1] ?  1 :
+           a[1] > b[1] ? -1 : 0;
+  });
 
   this._classes = {};
-  for(var key in counter){
-    var val = counter[key];
-    if(counter[key] > 1){
+  for(var i=0; i < sortedCounter.length; i++){
+    var key = sortedCounter[i][0];
+    var val = sortedCounter[i][1];
+    if(val > 1){
       this._classes[key] = generator();
     }
   }

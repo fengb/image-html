@@ -30,6 +30,14 @@ describe('counter()', function(){
   });
 });
 
+describe('objToArray()', function(){
+  it('converts to array', function(){
+    var array = util.objToArray({a: 1, b: 2}).sort();
+    expect(array[0]).to.eql(['a', 1]);
+    expect(array[1]).to.eql(['b', 2]);
+  });
+});
+
 describe('generator()', function(){
   it('iterates through chars', function(){
     var generator = util.generator('abcdefg');
