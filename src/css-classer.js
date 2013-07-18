@@ -15,7 +15,7 @@ var CssClasser = module.exports = function(styles){
 CssClasser.prototype.classes = function(prepend){
   var ret = [];
   for(var c in this._classes){
-    ret.push(util.format('{0} {1} { {2} }', prepend, this._classes[c], c));
+    ret.push(util.format('{0} .{1} { {2} }', prepend, this._classes[c], c));
   }
   return ret;
 };

@@ -8,8 +8,8 @@ describe('CssClasser', function(){
       var classer = new CssClasser(['top: 0', 'top: 0',
                                     'left: 0', 'left: 0']);
       var classes = classer.classes('i');
-      expect(classes[0]).to.match(/^i [a-z] { (top|left): 0 }$/);
-      expect(classes[1]).to.match(/^i [a-z] { (top|left): 0 }$/);
+      expect(classes[0]).to.match(/^i \.[a-z] { (top|left): 0 }$/);
+      expect(classes[1]).to.match(/^i \.[a-z] { (top|left): 0 }$/);
       expect(classes[0]).to.not.equal(classes[1]);
     });
   });
