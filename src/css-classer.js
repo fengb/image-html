@@ -12,10 +12,24 @@ var CssClasser = module.exports = function(styles){
   }
 };
 
-CssClasser.prototype.attrsFor = function(style){
-  if(this.classes[style]){
-    return util.format('class="{0}"', this.classes[style]);
-  } else {
-    return util.format('styles="{0}"', style);
+CssClasser.prototype.attrsFor = function(searchStyles){
+  var classes = [];
+  var styles = [];
+  for(var i=0; i < searchStyles.length; i++){
+    var style = searchStyles[i];
+    if(this.classes[style]){
+      classes.push(this.classes[style]);
+    } else {
+      styles.push(style);
+    }
   }
+
+  var ret = [];
+  if(classes.length > 0){
+    ret.push(util.format('class="{0}"', classes.join(' ')));
+  }
+  if(styles.length > 0){
+    ret.push(util.format('style="{0}"', styles.join('; ')));
+  }
+  return ret.join(' ');
 };

@@ -5,7 +5,7 @@ var ImageHtml = require('../src/image-html');
 describe('ImageHtml', function(){
   describe('.formats', function(){
     it('returns the keys', function(){
-      expect(ImageHtml.formats()).to.eql(['pi-01', 'pi-02']);
+      expect(ImageHtml.formats()).to.eql(['pi-01', 'pi-02', 'pi-03']);
     });
   });
 });
