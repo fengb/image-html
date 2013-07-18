@@ -1,7 +1,7 @@
 var Pixels = require('./pixels');
 var formats = {
-  baseline: require('./formats/baseline'),
-  segments: require('./formats/segments')
+  'pi-01': require('./formats/pi-01'),
+  'pi-02': require('./formats/pi-02')
 };
 
 var ImageHtml = module.exports = {
