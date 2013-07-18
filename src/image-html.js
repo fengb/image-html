@@ -11,7 +11,7 @@ var ImageHtml = module.exports = {
   },
 
   dom: function(image, id, format){
-    format = format || 'segments';
+    format = format || 'pi-03';
     var pixels = Pixels.fromDom(image);
     return formats[format](pixels, id);
   }
