@@ -7,21 +7,21 @@ module.exports = function(pixels, id){
 
   return {
     css: function(){
-      return format('#{0} { width: {1}px; margin: 0; }' +
+      return format('#{0} { width: {1}px; margin: 0; }\n' +
                     '#{0} i { display: inline-block; width: 1px; height: 1px; }',
                     id, pixels.cols);
     },
 
     html: function(){
-      var ret = format('<p id="{0}">', id);
+      var ret = format('<p id="{0}"\n>', id);
       for(var row=0; row < pixelSegments.length; row++){
         for(var segmentNum=0; segmentNum < pixelSegments[row].length; segmentNum++){
           var segment = pixelSegments[row][segmentNum];
           if(segment.length > 1){
-            ret += format('<i style="background: #{0}; width: {1}px"></i>',
+            ret += format('<i style="background: #{0}; width: {1}px"></i\n>',
                           segment.value.hex(), segment.length);
           } else {
-            ret += format('<i style="background: #{0}"></i>', segment.value.hex());
+            ret += format('<i style="background: #{0}"></i\n>', segment.value.hex());
           }
         }
       }
