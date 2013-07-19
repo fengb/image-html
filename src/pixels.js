@@ -10,7 +10,7 @@ var Pixels = module.exports = function(colorsMatrix){
   }
 };
 
-Pixels.fromDom = function(domImage){
+Pixels.fromImage = function(domImage){
   var canvas = new Canvas(domImage.width, domImage.height);
   var ctx = canvas.getContext('2d');
   ctx.drawImage(domImage, 0, 0);

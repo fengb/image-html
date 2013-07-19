@@ -40,7 +40,7 @@ page.injectJs(opts.script || 'dist/image-html.js');
 page.evaluate(function(imageBase64, format){
   var img = new Image();
   img.onload = function(){
-    var out = ImageHtml.dom(img, 'a', format);
+    var out = ImageHtml.convert(img, 'a', format);
     window.output = {
       css: out.css(),
       html: out.html()

@@ -10,9 +10,9 @@ var ImageHtml = module.exports = {
     return Object.keys(formats);
   },
 
-  dom: function(image, id, format){
+  convert: function(image, id, format){
     format = format || 'pi-03';
-    var pixels = Pixels.fromDom(image);
+    var pixels = Pixels.fromImage(image);
     return formats[format](pixels, id);
   }
 };

@@ -5,7 +5,7 @@ var Pixels = require('../src/pixels');
 
 
 describe('Pixels', function(){
-  describe('fromDom', function(){
+  describe('fromImage', function(){
     before(function(){
       var img = new Image();
       /* Image is 5 vertical lines at 3px tall: black-red-green-blue-white */
@@ -13,7 +13,7 @@ describe('Pixels', function(){
                                       'ABs6DXKAAAAGFBMVEUAAAAAAP8A/wD/AAD///'+
                                       '/AAAAAAAAAAACGPBrVAAAAEElEQVQImWNgYGZ'+
                                       'iZGFAIgEBDgAfrzCWxwAAAABJRU5ErkJggg==';
-      this.inst = Pixels.fromDom(img);
+      this.inst = Pixels.fromImage(img);
     });
 
     it('is 5px wide by 3px tall', function(){
