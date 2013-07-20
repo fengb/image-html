@@ -78,7 +78,7 @@
           html: document.getElementById('html')
         };
         img.raw.onload = function(){
-          var out = ImageHtml.dom(img.raw, 'a');
+          var out = ImageHtml.convert(img.raw, 'a');
           output.css.textContent = out.css();
           output.html.textContent = out.html();
         };
