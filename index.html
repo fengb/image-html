@@ -4,7 +4,7 @@
     <meta charset='utf-8' />
     <title>Image&rarr;Html</title>
     <style>
-      h1, h2 { margin: 0 0 20px; }
+      h1, h2 { margin: 0 0 10px; }
 
       section.source {
         float: left;
@@ -24,14 +24,23 @@
         margin-left: 30%;
       }
 
-      p {
+      textarea {
+        box-sizing: border-box;
         font-family: monospace;
         border: 2px solid #888;
+        width: 100%;
+        padding: 2px 4px;
+        white-space: pre-wrap;
         overflow: scroll;
+        cursor: pointer;
       }
 
-      p#css { height: 200px; }
-      p#html { height: 400px; }
+      textarea[disabled] {
+        cursor: auto;
+      }
+
+      #css { height: 200px; }
+      #html { height: 400px; }
     </style>
   </head>
   <body>
@@ -49,11 +58,11 @@
     <section class='out'>
       <section>
         <h1>CSS</h1>
-        <p id='css' />
+        <textarea id='css' disabled='disabled' readonly='readonly'></textarea>
       </section>
       <section>
         <h1>HTML</h1>
-        <p id='html' />
+        <textarea id='html' disabled='disabled' readonly='readonly'></textarea>
       </section>
     </section>
     <script src='image-html.js'></script>
@@ -81,7 +90,13 @@
           var out = ImageHtml.convert(img.raw, 'a');
           output.css.textContent = out.css();
           output.html.textContent = out.html();
+          output.css.disabled = false;
+          output.html.disabled = false;
         };
+
+        output.css.onclick = output.html.onclick = function(evt){
+          evt.target.select();
+        }
       }();
     </script>
   </body>
