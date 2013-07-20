@@ -3,45 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <title>Image&rarr;Html</title>
-    <style>
-      h1, h2 { margin: 0 0 10px; }
-
-      section.source {
-        float: left;
-        width: 30%;
-      }
-      img#display {
-        min-width: 50%;
-        max-width: 98%;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -o-crisp-edges;
-        image-rendering: crisp-edges;
-        image-rendering: -webkit-optimize-contrast;
-      }
-      img#raw { display: none; }
-
-      section.out {
-        margin-left: 30%;
-      }
-
-      textarea {
-        box-sizing: border-box;
-        font-family: monospace;
-        border: 2px solid #888;
-        width: 100%;
-        padding: 2px 4px;
-        white-space: pre-wrap;
-        overflow: scroll;
-        cursor: pointer;
-      }
-
-      textarea[disabled] {
-        cursor: auto;
-      }
-
-      #css { height: 200px; }
-      #html { height: 400px; }
-    </style>
+    <link rel='stylesheet' media='all' href='page.css' />
   </head>
   <body>
     <section class='source'>
@@ -68,47 +30,7 @@
         <textarea id='html' disabled='disabled' readonly='readonly'></textarea>
       </section>
     </section>
-    <script src='image-html.js'></script>
-    <script>
-      !function(){
-        var input = {
-          upload: document.getElementById('upload'),
-          format: document.getElementById('format')
-        };
-        var img = {
-          display: document.getElementById('display'),
-          raw: document.getElementById('raw')
-        };
-        var output = {
-          css: document.getElementById('css'),
-          html: document.getElementById('html')
-        };
-
-        ImageHtml.formats().forEach(function(format){
-          input.format.options.add(new Option(format, format));
-        });
-
-        input.upload.onchange = function(){
-          var reader = new FileReader();
-          reader.onload = function(evt){
-            img.display.src = evt.target.result;
-            img.raw.src = evt.target.result;
-          }
-          reader.readAsDataURL(input.upload.files[0]);
-        };
-
-        input.format.onchange = img.raw.onload = function(evt){
-          var out = ImageHtml.convert(img.raw, 'a', input.format.value);
-          output.css.textContent = out.css();
-          output.html.textContent = out.html();
-          output.css.disabled = false;
-          output.html.disabled = false;
-        };
-
-        output.css.onclick = output.html.onclick = function(evt){
-          evt.target.select();
-        }
-      }();
-    </script>
+    <script src='image-html.min.js'></script>
+    <script src='page.js'></script>
   </body>
 </html>

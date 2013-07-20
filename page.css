@@ -1,0 +1,35 @@
+h1, h2 { margin: 0 0 10px; }
+
+section.source {
+  float: left;
+  width: 30%;
+}
+img#display {
+  min-width: 50%;
+  max-width: 98%;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+img#raw { display: none; }
+
+section.out {
+  margin-left: 30%;
+}
+
+textarea {
+  box-sizing: border-box;
+  font-family: monospace;
+  border: 2px solid #888;
+  width: 100%;
+  padding: 2px 4px;
+  white-space: pre-wrap;
+  overflow: scroll;
+  cursor: pointer;
+}
+textarea[disabled] {
+  cursor: auto;
+}
+textarea#css { height: 200px; }
+textarea#html { height: 400px; }
