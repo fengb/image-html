@@ -1,8 +1,8 @@
 var expect = require('expect.js');
-var CssClasser = require('../src/css-classer');
+var CssClasser = require('../../src/formats/pi-03').CssClasser;
 
 
-describe('CssClasser', function(){
+describe('Pi03.CssClasser', function(){
   describe('.classes()', function(){
     it('outputs all relevant class definitions', function(){
       var classer = new CssClasser([{top: '0', left: '0'},
