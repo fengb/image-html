@@ -6,15 +6,22 @@ dir=tmp/func-$2
 declare -a failed=()
 
 mkdir -p $dir
+elapsed=$(time (
 for format in `ls src/formats | sed 's/\.js$//g'`; do
   $exe --format $format example.png $dir/$format.html
-  $BAKE render --viewport 200x199 $dir/$format.html $dir/$format.png
+  $BAKE -s render --viewport 200x199 $dir/$format.html $dir/$format.png
   # FIXME: use return status once that is fixed
   status=`node_modules/.bin/imagediff -e example.png $dir/$format.png`
   if [ "$status" != true ]; then
     failed=("${failed[@]}" "$format")
+    echo -n 'F' >&3
+  else
+    echo -n '.' >&3
   fi
 done
+) 3>&2 2>&1)
+echo
+sed -e 's;.*real *\([0-9]*m[0-9.]*s\).*;\1;' <<<$elapsed
 
 if [ ${#failed} -ne 0 ]; then
   echo "Failures: ${failed[@]}" >&2
