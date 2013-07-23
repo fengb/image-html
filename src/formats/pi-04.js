@@ -27,12 +27,10 @@ module.exports = function(pixels, id){
     },
 
     html: function(){
-      var ret = util.format('<p id="{0}"\n>', id);
-      for(var i=0; i < unrolledSegments.length; i++){
-        var segment = unrolledSegments[i];
-        ret += util.format('<i {0}></i\n>', classer.attrsFor(segment.styles));
-      }
-      return ret + '</p>';
+      return util.format('<p id="{0}"\n>{1}</p>', id,
+                         unrolledSegments.map(function(s){
+                           return classer.elementFor(s.styles);
+                         }).join(''));
     }
   };
 };
@@ -78,7 +76,7 @@ CssClasser.prototype.classes = function(prepend){
   return ret;
 };
 
-CssClasser.prototype.attrsFor = function(searchStyles){
+CssClasser.prototype.elementFor = function(searchStyles){
   searchStyles = stringifyStyles(searchStyles);
 
   var classes = [];
@@ -92,12 +90,12 @@ CssClasser.prototype.attrsFor = function(searchStyles){
     }
   }
 
-  var ret = [];
+  var attrs = [];
   if(classes.length > 0){
-    ret.push(util.format('class="{0}"', classes.join(' ')));
+    attrs.push(util.format('class="{0}"', classes.join(' ')));
   }
   if(styles.length > 0){
-    ret.push(util.format('style="{0}"', styles.join('; ')));
+    attrs.push(util.format('style="{0}"', styles.join('; ')));
   }
-  return ret.join(' ');
+  return util.format('<i {0}></i>', attrs.join(' '));
 };
