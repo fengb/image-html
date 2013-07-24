@@ -68,6 +68,23 @@ var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
   }
 };
 
+HtmlGenerator.prototype.commonStyles = function(attr){
+  var counter = util.counter();
+  for(var i=0; i < this._styleDicts.length; i++){
+    if(this._styleDicts[i][attr]){
+      counter.add(this._styleDicts[i][attr]);
+    }
+  }
+  var sortedCounter = counter.sortByMostFrequent();
+  var ret = [];
+  for(i=0; i < sortedCounter.length; i++){
+    if(sortedCounter[i][1] > 1){
+      ret.push(sortedCounter[i][0]);
+    }
+  }
+  return ret;
+};
+
 HtmlGenerator.prototype.styles = function(prepend){
   var ret = [util.format('{0} * { display: inline-block; }', prepend)];
   for(var c in this._classes){
