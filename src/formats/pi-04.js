@@ -12,8 +12,11 @@ module.exports = function(pixels, id){
   var styles = [];
   for(var i=0; i < unrolledSegments.length; i++){
     var segment = unrolledSegments[i];
-    segment.styles = {background: '#' + segment.value.hex(),
-                      width: segment.length + 'px'};
+    segment.styles = {
+      background: '#' + segment.value.hex(),
+      width: segment.length + 'px',
+      height: '1px'
+    };
     styles.push(segment.styles);
   }
   var gen = new HtmlGenerator(styles);
@@ -68,7 +71,7 @@ var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
 };
 
 HtmlGenerator.prototype.styles = function(prepend){
-  var ret = [util.format('{0} * { display: inline-block; width: 1px; height: 1px; }', prepend)];
+  var ret = [util.format('{0} * { display: inline-block; }', prepend)];
   for(var c in this._classes){
     ret.push(util.format('{0} .{1} { {2} }', prepend, this._classes[c], c));
   }

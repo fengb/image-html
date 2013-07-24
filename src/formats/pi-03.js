@@ -21,7 +21,7 @@ module.exports = function(pixels, id){
   return {
     css: function(){
       return util.format('#{0} { width: {1}px; margin: 0; }\n' +
-                         '#{0} i { display: inline-block; width: 1px; height: 1px; }\n',
+                         '#{0} i { display: inline-block; height: 1px; }\n',
                          id, pixels.cols) +
              classer.classes('#'+id).join('\n');
     },
