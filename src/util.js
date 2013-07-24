@@ -1,4 +1,4 @@
-module.exports = {
+var util = module.exports = {
   format: function() {
     var regexes = [];
     for(var i=0; i < 10; i++) {
@@ -16,12 +16,26 @@ module.exports = {
   }(),
 
   counter: function(array){
-    var ret = {};
-    for(var i=0; i < array.length; i++){
-      var val = array[i];
-      ret[val] = (ret[val] || 0) + 1;
+    var count = {};
+    function add(value){
+      count[value] = (count[value] || 0) + 1;
     }
-    return ret;
+    if(array){
+      for(var i=0; i < array.length; i++){
+        add(array[i]);
+      }
+    }
+
+    return {
+      count: count,
+      add: add,
+      sortByMostFrequent: function(){
+        return util.objToArray(this.count).sort(function(a, b){
+          return a[1] < b[1] ?  1 :
+                 a[1] > b[1] ? -1 : 0;
+        });
+      }
+    };
   },
 
   objToArray: function(obj){

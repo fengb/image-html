@@ -48,6 +48,7 @@ function stringifyStyles(styleDict){
 
 
 var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
+  this._styleDicts = styleDicts;
   var flatStyles = [];
   styleDicts.forEach(function(styleDict){
     flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
@@ -55,10 +56,7 @@ var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
 
   var counter = util.counter(flatStyles);
   var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
-  var sortedCounter = util.objToArray(counter).sort(function(a, b){
-    return a[1] < b[1] ?  1 :
-           a[1] > b[1] ? -1 : 0;
-  });
+  var sortedCounter = counter.sortByMostFrequent();
 
   this._classes = {};
   for(var i=0; i < sortedCounter.length; i++){

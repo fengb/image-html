@@ -18,15 +18,29 @@ describe('format()', function(){
 describe('counter()', function(){
   it('has each element', function(){
     var counter = util.counter(['this', 'is', 'sparta']);
-    expect(counter).to.have.property('this');
-    expect(counter).to.have.property('is');
-    expect(counter).to.have.property('sparta');
+    expect(counter.count).to.have.property('this');
+    expect(counter.count).to.have.property('is');
+    expect(counter.count).to.have.property('sparta');
   });
 
   it('has each count to be total values', function(){
     var counter = util.counter(['alpha', 'beta', 'alpha']);
-    expect(counter).to.have.property('alpha', 2);
-    expect(counter).to.have.property('beta', 1);
+    expect(counter.count).to.have.property('alpha', 2);
+    expect(counter.count).to.have.property('beta', 1);
+  });
+
+  it('can .add() elements', function(){
+    var counter = util.counter();
+    counter.add('alpha');
+    counter.add('alpha');
+    expect(counter.count).to.have.property('alpha', 2);
+  });
+
+  it('.sortByMostFrequent()', function(){
+    var counter = util.counter(['one', 'one', 'two']);
+    var sorted = counter.sortByMostFrequent();
+    expect(sorted[0]).to.eql(['one', 2]);
+    expect(sorted[1]).to.eql(['two', 1]);
   });
 });
 
