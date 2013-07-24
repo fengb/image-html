@@ -20,8 +20,7 @@ module.exports = function(pixels, id){
 
   return {
     css: function(){
-      return util.format('#{0} { width: {1}px; margin: 0; }\n' +
-                         '#{0} i { display: inline-block; width: 1px; height: 1px; }\n',
+      return util.format('#{0} { width: {1}px; margin: 0; }\n',
                          id, pixels.cols) +
              gen.styles('#'+id).join('\n');
     },
@@ -69,7 +68,7 @@ var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
 };
 
 HtmlGenerator.prototype.styles = function(prepend){
-  var ret = [];
+  var ret = [util.format('{0} * { display: inline-block; width: 1px; height: 1px; }', prepend)];
   for(var c in this._classes){
     ret.push(util.format('{0} .{1} { {2} }', prepend, this._classes[c], c));
   }

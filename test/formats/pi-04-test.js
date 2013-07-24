@@ -7,10 +7,11 @@ describe('Pi04.HtmlGenerator', function(){
     it('outputs all relevant class definitions', function(){
       var gen = new HtmlGenerator([{top: '0', left: '0'},
                                    {top: '0', left: '0'}]);
-      var styles = gen.styles('i');
-      expect(styles[0]).to.match(/^i \.[a-z] { (top|left): 0 }$/);
-      expect(styles[1]).to.match(/^i \.[a-z] { (top|left): 0 }$/);
-      expect(styles[0]).to.not.equal(styles[1]);
+      var styles = gen.styles('o');
+      expect(styles[0]).to.equal('o * { display: inline-block; width: 1px; height: 1px; }');
+      expect(styles[1]).to.match(/^o \.[a-z] { (top|left): 0 }$/);
+      expect(styles[2]).to.match(/^o \.[a-z] { (top|left): 0 }$/);
+      expect(styles[1]).to.not.equal(styles[2]);
     });
   });
 
