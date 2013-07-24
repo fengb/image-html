@@ -14,44 +14,47 @@ describe('Pi04.HtmlGenerator', function(){
     });
   });
 
-  describe('.elementFor()', function(){
+  describe('.valuesFor()', function(){
     it('keeps single styles as styles', function(){
       var gen = new HtmlGenerator([{left: '0', top: '0'}]);
-      expect(gen.elementFor({left: '0'})).to.equal('<i style="left: 0"></i>');
-      expect(gen.elementFor({top: '0'})).to.equal('<i style="top: 0"></i>');
+      expect(gen.valuesFor({left: '0'}).styles).to.equal('left: 0');
+      expect(gen.valuesFor({top: '0'}).styles).to.equal('top: 0');
+      expect(gen.valuesFor({top: '0', left: '0'}).styles).to.equal('top: 0; left: 0');
     });
 
-    it('groups styles into unique styles', function(){
+    it('groups styles into unique classes', function(){
       var gen = new HtmlGenerator([{top: '0', left: '0'},
                                    {top: '0', left: '0'}]);
       var out = {
-        top: gen.elementFor({top: '0'}),
-        left: gen.elementFor({left: '0'})
+        top: gen.valuesFor({top: '0'}),
+        left: gen.valuesFor({left: '0'})
       };
-      expect(out.top).to.match(/^<i class="[a-z]"><\/i>$/);
-      expect(out.left).to.match(/^<i class="[a-z]"><\/i>$/);
-      expect(out.top).to.not.equal(out.left);
+      expect(out.top.classes).to.match(/^[a-z]$/);
+      expect(out.left.classes).to.match(/^[a-z]$/);
+      expect(out.top.classes).to.not.equal(out.left.classes);
     });
 
     it('has consistent outputs', function(){
       var gen = new HtmlGenerator([{top: '0', left: '0'},
                                    {top: '0'}]);
-      expect(gen.elementFor({top: '0'})).
-          to.equal(gen.elementFor({top: '0'}));
-      expect(gen.elementFor({left: '0'})).
-          to.equal(gen.elementFor({left: '0'}));
+      expect(gen.valuesFor({top: '0'})).
+          to.eql(gen.valuesFor({top: '0'}));
+      expect(gen.valuesFor({left: '0'})).
+          to.eql(gen.valuesFor({left: '0'}));
     });
 
     it('combines outputs', function(){
       var gen = new HtmlGenerator([{top: '0', left: '0'},
-                                   {top: '0', right: '0'},
-                                   {bottom: '0', left: '0'}]);
-      expect(gen.elementFor({top: '0', left: '0'})).
-          to.match(/^<i class="[a-z] [a-z]"><\/i>$/);
-      expect(gen.elementFor({top: '0', right: '0'})).
-          to.match(/^<i class="[a-z]" style="right: 0"><\/i>$/);
-      expect(gen.elementFor({bottom: '0', right: '0'})).
-          to.equal('<i style="bottom: 0; right: 0"></i>');
+                                   {top: '0', right: '0'}]);
+      var out = {
+        topleft: gen.valuesFor({top: '0', left: '0'}),
+        topright: gen.valuesFor({top: '0', right: '0'})
+      };
+      expect(out.topleft.classes).to.match(/^[a-z]$/);
+      expect(out.topleft.classes).to.equal(out.topright.classes);
+
+      expect(out.topleft.styles).to.equal('left: 0');
+      expect(out.topright.styles).to.equal('right: 0');
     });
   });
 });

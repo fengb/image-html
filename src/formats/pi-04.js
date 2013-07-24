@@ -76,7 +76,7 @@ HtmlGenerator.prototype.styles = function(prepend){
   return ret;
 };
 
-HtmlGenerator.prototype.elementFor = function(searchStyles){
+HtmlGenerator.prototype.valuesFor = function(searchStyles){
   searchStyles = stringifyStyles(searchStyles);
 
   var classes = [];
@@ -90,12 +90,21 @@ HtmlGenerator.prototype.elementFor = function(searchStyles){
     }
   }
 
-  var attrs = [];
-  if(classes.length > 0){
-    attrs.push(util.format('class="{0}"', classes.join(' ')));
+  return {
+    element: 'i',
+    classes: classes.join(' '),
+    styles: styles.join('; ')
+  };
+};
+
+HtmlGenerator.prototype.elementFor = function(searchStyles){
+  var values = this.valuesFor(searchStyles);
+  var attrs = '';
+  if(values.classes){
+    attrs += util.format(' class="{0}"', values.classes);
   }
-  if(styles.length > 0){
-    attrs.push(util.format('style="{0}"', styles.join('; ')));
+  if(values.styles){
+    attrs += util.format(' style="{0}"', values.styles);
   }
-  return util.format('<i {0}></i>', attrs.join(' '));
+  return util.format('<{0}{1}></{0}\n>', values.element, attrs);
 };
