@@ -3,7 +3,27 @@ var HtmlGenerator = require('../../src/formats/pi-04').HtmlGenerator;
 
 
 describe('Pi04.HtmlGenerator', function(){
-  describe('.commonStyles()', function(){
+  describe('.testable.classes', function(){
+    it('converts styles into classes', function(){
+      var gen = new HtmlGenerator([{top: '0'},
+                                   {top: '0'}]);
+      expect(gen.testable.classes['top: 0']).to.match(/^[a-z]$/);
+    });
+
+    it('does not convert single styles', function(){
+      var gen = new HtmlGenerator([{top: '0'}]);
+      expect(gen.testable.classes).to.not.have.property(['top: 0']);
+    });
+
+    it('uses unique classes', function(){
+      var gen = new HtmlGenerator([{top: '0', left: '0'},
+                                   {top: '0', left: '0'}]);
+      expect(gen.testable.classes['top: 0']).
+        to.not.equal(gen.testable.classes['left: 0']);
+    });
+  });
+
+  describe('.testable.commonStyles()', function(){
     it('outputs common styles by value', function(){
       var gen = new HtmlGenerator([{top: '0', left: '1'},
                                    {top: '0', left: '1'}]);
@@ -48,16 +68,10 @@ describe('Pi04.HtmlGenerator', function(){
       expect(gen.valuesFor({top: '0', left: '0'}).styles).to.equal('top: 0; left: 0');
     });
 
-    it('groups styles into unique classes', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '0'},
-                                   {top: '0', left: '0'}]);
-      var out = {
-        top: gen.valuesFor({top: '0'}),
-        left: gen.valuesFor({left: '0'})
-      };
-      expect(out.top.classes).to.match(/^[a-z]$/);
-      expect(out.left.classes).to.match(/^[a-z]$/);
-      expect(out.top.classes).to.not.equal(out.left.classes);
+    it('groups styles into classes', function(){
+      var gen = new HtmlGenerator([]);
+      gen.testable.classes['top: 0'] = 'wat';
+      expect(gen.valuesFor({top: '0'}).classes).to.equal('wat');
     });
 
     it('has consistent outputs', function(){
