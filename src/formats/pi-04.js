@@ -16,20 +16,20 @@ module.exports = function(pixels, id){
                       width: segment.length + 'px'};
     styles.push(segment.styles);
   }
-  var classer = new CssClasser(styles);
+  var gen = new HtmlGenerator(styles);
 
   return {
     css: function(){
       return util.format('#{0} { width: {1}px; margin: 0; }\n' +
                          '#{0} i { display: inline-block; width: 1px; height: 1px; }\n',
                          id, pixels.cols) +
-             classer.classes('#'+id).join('\n');
+             gen.styles('#'+id).join('\n');
     },
 
     html: function(){
       return util.format('<p id="{0}"\n>{1}</p>', id,
                          unrolledSegments.map(function(s){
-                           return classer.elementFor(s.styles);
+                           return gen.elementFor(s.styles);
                          }).join(''));
     }
   };
@@ -45,7 +45,7 @@ function stringifyStyles(styleDict){
 }
 
 
-var CssClasser = module.exports.CssClasser = function(styleDicts){
+var HtmlGenerator = module.exports.HtmlGenerator = function(styleDicts){
   var flatStyles = [];
   styleDicts.forEach(function(styleDict){
     flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
@@ -68,7 +68,7 @@ var CssClasser = module.exports.CssClasser = function(styleDicts){
   }
 };
 
-CssClasser.prototype.classes = function(prepend){
+HtmlGenerator.prototype.styles = function(prepend){
   var ret = [];
   for(var c in this._classes){
     ret.push(util.format('{0} .{1} { {2} }', prepend, this._classes[c], c));
@@ -76,7 +76,7 @@ CssClasser.prototype.classes = function(prepend){
   return ret;
 };
 
-CssClasser.prototype.elementFor = function(searchStyles){
+HtmlGenerator.prototype.elementFor = function(searchStyles){
   searchStyles = stringifyStyles(searchStyles);
 
   var classes = [];
