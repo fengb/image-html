@@ -3,18 +3,18 @@ var HtmlGenerator = require('../../src/formats/pi-04').HtmlGenerator;
 
 
 describe('Pi04.HtmlGenerator', function(){
-  describe('.mostCommonStyles()', function(){
+  describe('.commonStyles()', function(){
     it('outputs common styles by value', function(){
       var gen = new HtmlGenerator([{top: '0', left: '1'},
                                    {top: '0', left: '1'}]);
-      expect(gen.commonStyles('top')).to.eql(['0']);
-      expect(gen.commonStyles('left')).to.eql(['1']);
+      expect(gen.testable.commonStyles('top')).to.eql(['0']);
+      expect(gen.testable.commonStyles('left')).to.eql(['1']);
     });
 
     it('ignores value count of 1', function(){
       var gen = new HtmlGenerator([{top: '0', left: '1'}]);
-      expect(gen.commonStyles('top')).to.eql([]);
-      expect(gen.commonStyles('left')).to.eql([]);
+      expect(gen.testable.commonStyles('top')).to.eql([]);
+      expect(gen.testable.commonStyles('left')).to.eql([]);
     });
 
     it('orders by most often to least often', function(){
@@ -23,8 +23,8 @@ describe('Pi04.HtmlGenerator', function(){
                                    {top: '2', left: '3'},
                                    {top: '2', left: '1'},
                                    {top: '2', left: '3'}]);
-      expect(gen.commonStyles('top')).to.eql(['2', '0']);
-      expect(gen.commonStyles('left')).to.eql(['3', '1']);
+      expect(gen.testable.commonStyles('top')).to.eql(['2', '0']);
+      expect(gen.testable.commonStyles('left')).to.eql(['3', '1']);
     });
   });
 

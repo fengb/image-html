@@ -49,29 +49,28 @@ module.exports.HtmlGenerator = function(styleDicts){
     }
   };
 
-  private.classes = function(){
-    var flatStyles = [];
-    styleDicts.forEach(function(styleDict){
-      flatStyles.push.apply(flatStyles, private.stringifyStyles(styleDict));
-    });
+  var testable = {
+    classes: function(){
+      var flatStyles = [];
+      styleDicts.forEach(function(styleDict){
+        flatStyles.push.apply(flatStyles, private.stringifyStyles(styleDict));
+      });
 
-    var counter = util.counter(flatStyles);
-    var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
-    var sortedCounter = counter.sortByMostFrequent();
+      var counter = util.counter(flatStyles);
+      var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
+      var sortedCounter = counter.sortByMostFrequent();
 
-    var classes = {};
-    for(var i=0; i < sortedCounter.length; i++){
-      var key = sortedCounter[i][0];
-      var val = sortedCounter[i][1];
-      if(val > 1){
-        classes[key] = generator();
+      var classes = {};
+      for(var i=0; i < sortedCounter.length; i++){
+        var key = sortedCounter[i][0];
+        var val = sortedCounter[i][1];
+        if(val > 1){
+          classes[key] = generator();
+        }
       }
-    }
-    return classes;
-  }();
+      return classes;
+    }(),
 
-
-  var public = {
     commonStyles: util.memoize(function(attr){
       var counter = util.counter();
       for(var i=0; i < styleDicts.length; i++){
@@ -87,12 +86,15 @@ module.exports.HtmlGenerator = function(styleDicts){
         }
       }
       return ret;
-    }),
+    })
+  };
 
+  var public = {
+    testable: testable,
     styles: function(prepend){
       var ret = [util.format('{0} * { display: inline-block; }', prepend)];
-      for(var c in private.classes){
-        ret.push(util.format('{0} .{1} { {2} }', prepend, private.classes[c], c));
+      for(var c in testable.classes){
+        ret.push(util.format('{0} .{1} { {2} }', prepend, testable.classes[c], c));
       }
       return ret;
     },
@@ -104,8 +106,8 @@ module.exports.HtmlGenerator = function(styleDicts){
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){
         var style = searchStyles[i];
-        if(private.classes[style]){
-          classes.push(private.classes[style]);
+        if(testable.classes[style]){
+          classes.push(testable.classes[style]);
         } else {
           styles.push(style);
         }
