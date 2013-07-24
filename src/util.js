@@ -46,6 +46,17 @@ var util = module.exports = {
     return array;
   },
 
+  memoize: function(func){
+    var cache = {};
+    return function(){
+      var key = [].join.apply(arguments);
+      if(!cache[key]){
+        cache[key] = func.apply(this, arguments);
+      }
+      return cache[key];
+    };
+  },
+
   generator: function(chars){
     var indexes = [];
 

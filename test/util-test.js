@@ -52,6 +52,33 @@ describe('objToArray()', function(){
   });
 });
 
+describe('memoize()', function(){
+  describe('for functions', function(){
+    before(function(){
+      this.memoed = util.memoize(function(a, b, c){
+        return arguments;
+      });
+    });
+
+    it('caches no args', function(){
+      var ret = this.memoed();
+      expect(ret).to.eql([]);
+      expect(ret).to.equal(this.memoed());
+    });
+
+    it('caches args', function(){
+      var ret = this.memoed(1, 2, 3);
+      expect(ret).to.eql([1, 2, 3]);
+      expect(ret).to.equal(this.memoed(1, 2, 3));
+    });
+
+    it('caches differently based on arguments', function(){
+      expect(this.memoed(1, 2, 3)).to.eql([1, 2, 3]);
+      expect(this.memoed(4, 5, 6)).to.eql([4, 5, 6]);
+    });
+  });
+});
+
 describe('generator()', function(){
   it('iterates through chars', function(){
     var generator = util.generator('abcdefg');
