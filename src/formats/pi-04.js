@@ -39,34 +39,40 @@ module.exports = function(pixels, id){
 
 
 module.exports.HtmlGenerator = function(styleDicts){
-  var flatStyles = [];
-  styleDicts.forEach(function(styleDict){
-    flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
-  });
-
-  var counter = util.counter(flatStyles);
-  var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
-  var sortedCounter = counter.sortByMostFrequent();
-
-  var privClasses = {};
-  for(var i=0; i < sortedCounter.length; i++){
-    var key = sortedCounter[i][0];
-    var val = sortedCounter[i][1];
-    if(val > 1){
-      privClasses[key] = generator();
+  var private = {
+    stringifyStyles: function(styleDict){
+      var stringified = [];
+      for(var key in styleDict){
+        stringified.push(util.format('{0}: {1}', key, styleDict[key]));
+      }
+      return stringified;
     }
-  }
+  };
 
-  function stringifyStyles(styleDict){
-    var stringified = [];
-    for(var key in styleDict){
-      stringified.push(util.format('{0}: {1}', key, styleDict[key]));
+  private.classes = function(){
+    var flatStyles = [];
+    styleDicts.forEach(function(styleDict){
+      flatStyles.push.apply(flatStyles, private.stringifyStyles(styleDict));
+    });
+
+    var counter = util.counter(flatStyles);
+    var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
+    var sortedCounter = counter.sortByMostFrequent();
+
+    var classes = {};
+    for(var i=0; i < sortedCounter.length; i++){
+      var key = sortedCounter[i][0];
+      var val = sortedCounter[i][1];
+      if(val > 1){
+        classes[key] = generator();
+      }
     }
-    return stringified;
-  }
+    return classes;
+  }();
+
 
   var public = {
-    commonStyles: function(attr){
+    commonStyles: util.memoize(function(attr){
       var counter = util.counter();
       for(var i=0; i < styleDicts.length; i++){
         if(styleDicts[i][attr]){
@@ -81,25 +87,25 @@ module.exports.HtmlGenerator = function(styleDicts){
         }
       }
       return ret;
-    },
+    }),
 
     styles: function(prepend){
       var ret = [util.format('{0} * { display: inline-block; }', prepend)];
-      for(var c in privClasses){
-        ret.push(util.format('{0} .{1} { {2} }', prepend, privClasses[c], c));
+      for(var c in private.classes){
+        ret.push(util.format('{0} .{1} { {2} }', prepend, private.classes[c], c));
       }
       return ret;
     },
 
     valuesFor: function(searchStyles){
-      searchStyles = stringifyStyles(searchStyles);
+      searchStyles = private.stringifyStyles(searchStyles);
 
       var classes = [];
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){
         var style = searchStyles[i];
-        if(privClasses[style]){
-          classes.push(privClasses[style]);
+        if(private.classes[style]){
+          classes.push(private.classes[style]);
         } else {
           styles.push(style);
         }
