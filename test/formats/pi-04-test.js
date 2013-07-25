@@ -3,6 +3,19 @@ var HtmlGenerator = require('../../src/formats/pi-04').HtmlGenerator;
 
 
 describe('Pi04.HtmlGenerator', function(){
+  describe('.testable.tags', function(){
+    it('does nothing for single uses', function(){
+      var gen = new HtmlGenerator([{top: '0'}]);
+      expect(gen.testable.tags).to.eql([]);
+    });
+
+    it('groups multiple uses to one tag', function(){
+      var gen = new HtmlGenerator([{top: '0', left: '0'},
+                                   {top: '0', left: '0'}]);
+      expect(gen.testable.tags.i).to.eql(['top: 0', 'left: 0']);
+    });
+  });
+
   describe('.testable.classes', function(){
     it('converts styles into classes', function(){
       var gen = new HtmlGenerator([{top: '0'},
@@ -20,31 +33,6 @@ describe('Pi04.HtmlGenerator', function(){
                                    {top: '0', left: '0'}]);
       expect(gen.testable.classes['top: 0']).
         to.not.equal(gen.testable.classes['left: 0']);
-    });
-  });
-
-  describe('.testable.commonStyles()', function(){
-    it('outputs common styles by value', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '1'},
-                                   {top: '0', left: '1'}]);
-      expect(gen.testable.commonStyles('top')).to.eql(['0']);
-      expect(gen.testable.commonStyles('left')).to.eql(['1']);
-    });
-
-    it('ignores value count of 1', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '1'}]);
-      expect(gen.testable.commonStyles('top')).to.eql([]);
-      expect(gen.testable.commonStyles('left')).to.eql([]);
-    });
-
-    it('orders by most often to least often', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '3'},
-                                   {top: '0', left: '1'},
-                                   {top: '2', left: '3'},
-                                   {top: '2', left: '1'},
-                                   {top: '2', left: '3'}]);
-      expect(gen.testable.commonStyles('top')).to.eql(['2', '0']);
-      expect(gen.testable.commonStyles('left')).to.eql(['3', '1']);
     });
   });
 

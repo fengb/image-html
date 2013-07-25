@@ -50,6 +50,24 @@ module.exports.HtmlGenerator = function(styleDicts){
   };
 
   var testable = {
+    tags: function(){
+      var counter = util.counter();
+      styleDicts.forEach(function(styleDict){
+        counter.add(private.stringifyStyles(styleDict).join(','));
+      });
+
+      var sortedCounter = counter.sortByMostFrequent();
+      var tags = {};
+      for(var i=0; i < sortedCounter.length; i++){
+        var key = sortedCounter[i][0];
+        var val = sortedCounter[i][1];
+        if(val > 1){
+          tags.i = key.split(',');
+        }
+      }
+      return tags;
+    }(),
+
     classes: function(){
       var flatStyles = [];
       styleDicts.forEach(function(styleDict){
@@ -69,24 +87,7 @@ module.exports.HtmlGenerator = function(styleDicts){
         }
       }
       return classes;
-    }(),
-
-    commonStyles: util.memoize(function(attr){
-      var counter = util.counter();
-      for(var i=0; i < styleDicts.length; i++){
-        if(styleDicts[i][attr]){
-          counter.add(styleDicts[i][attr]);
-        }
-      }
-      var sortedCounter = counter.sortByMostFrequent();
-      var ret = [];
-      for(i=0; i < sortedCounter.length; i++){
-        if(sortedCounter[i][1] > 1){
-          ret.push(sortedCounter[i][0]);
-        }
-      }
-      return ret;
-    })
+    }()
   };
 
   var public = {
