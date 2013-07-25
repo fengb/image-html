@@ -61,22 +61,26 @@ describe('Pi04.HtmlGenerator', function(){
   });
 
   describe('.valuesFor()', function(){
-    it('keeps single styles as styles', function(){
-      var gen = new HtmlGenerator([{left: '0', top: '0'}]);
-      expect(gen.valuesFor({left: '0'}).styles).to.equal('left: 0');
-      expect(gen.valuesFor({top: '0'}).styles).to.equal('top: 0');
-      expect(gen.valuesFor({top: '0', left: '0'}).styles).to.equal('top: 0; left: 0');
-    });
-
-    it('groups styles into classes', function(){
+    it('uses classes when possible', function(){
       var gen = new HtmlGenerator([]);
-      gen.testable.classes['top: 0'] = 'wat';
+      gen.testable.classes = {
+        'top: 0': 'wat'
+      };
       expect(gen.valuesFor({top: '0'}).classes).to.equal('wat');
     });
 
+    it('keeps styles when cannot find classes', function(){
+      var gen = new HtmlGenerator([]);
+      gen.testable.classes = {};
+      expect(gen.valuesFor({left: '0'}).styles).to.equal('left: 0');
+      expect(gen.valuesFor({top: '0', left: '0'}).styles).to.equal('top: 0; left: 0');
+    });
+
     it('has consistent outputs', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '0'},
-                                   {top: '0'}]);
+      var gen = new HtmlGenerator([]);
+      gen.testable.classes = {
+        'top: 0': 'wat'
+      };
       expect(gen.valuesFor({top: '0'})).
           to.eql(gen.valuesFor({top: '0'}));
       expect(gen.valuesFor({left: '0'})).
@@ -84,14 +88,16 @@ describe('Pi04.HtmlGenerator', function(){
     });
 
     it('combines outputs', function(){
-      var gen = new HtmlGenerator([{top: '0', left: '0'},
-                                   {top: '0', right: '0'}]);
+      var gen = new HtmlGenerator([]);
+      gen.testable.classes = {
+        'top: 0': 'wat'
+      };
       var out = {
         topleft: gen.valuesFor({top: '0', left: '0'}),
         topright: gen.valuesFor({top: '0', right: '0'})
       };
-      expect(out.topleft.classes).to.match(/^[a-z]$/);
-      expect(out.topleft.classes).to.equal(out.topright.classes);
+      expect(out.topleft.classes).to.equal('wat');
+      expect(out.topright.classes).to.equal('wat');
 
       expect(out.topleft.styles).to.equal('left: 0');
       expect(out.topright.styles).to.equal('right: 0');
