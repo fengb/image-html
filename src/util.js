@@ -57,7 +57,7 @@ var util = module.exports = {
     };
   },
 
-  generator: function(chars){
+  endlessGenerator: function(chars){
     var indexes = [];
 
     return function(){

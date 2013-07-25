@@ -54,7 +54,7 @@ var CssClasser = module.exports.CssClasser = function(styleDicts){
   });
 
   var counter = util.counter(flatStyles);
-  var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
+  var generator = util.endlessGenerator('abcdefghijklmnopqrstuvwxyz');
   var sortedCounter = counter.sortByMostFrequent();
 
   this._classes = {};

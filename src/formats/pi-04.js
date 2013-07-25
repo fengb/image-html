@@ -75,7 +75,7 @@ module.exports.HtmlGenerator = function(styleDicts){
       });
 
       var counter = util.counter(flatStyles);
-      var generator = util.generator('abcdefghijklmnopqrstuvwxyz');
+      var generator = util.endlessGenerator('abcdefghijklmnopqrstuvwxyz');
       var sortedCounter = counter.sortByMostFrequent();
 
       var classes = {};

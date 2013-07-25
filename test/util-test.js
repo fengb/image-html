@@ -79,9 +79,9 @@ describe('memoize()', function(){
   });
 });
 
-describe('generator()', function(){
+describe('endlessGenerator()', function(){
   it('iterates through chars', function(){
-    var generator = util.generator('abcdefg');
+    var generator = util.endlessGenerator('abcdefg');
     expect(generator()).to.equal('a');
     expect(generator()).to.equal('b');
     expect(generator()).to.equal('c');
@@ -92,7 +92,7 @@ describe('generator()', function(){
   });
 
   it('appends chars if no more unique single chars', function(){
-    var generator = util.generator('a');
+    var generator = util.endlessGenerator('a');
     expect(generator()).to.equal('a');
     expect(generator()).to.equal('aa');
     expect(generator()).to.equal('aaa');
@@ -100,7 +100,7 @@ describe('generator()', function(){
   });
 
   it('does fancy combination of both', function(){
-    var generator = util.generator('ab');
+    var generator = util.endlessGenerator('ab');
     expect(generator()).to.equal('a');
     expect(generator()).to.equal('b');
     expect(generator()).to.equal('aa');
