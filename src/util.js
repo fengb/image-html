@@ -57,6 +57,16 @@ var util = module.exports = {
     };
   },
 
+  generator: function(chars){
+    var index = 0;
+    return function(){
+      if(index < chars.length){
+        return chars[index++];
+      }
+      return null;
+    };
+  },
+
   endlessGenerator: function(chars){
     var indexes = [];
 

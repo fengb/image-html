@@ -79,6 +79,29 @@ describe('memoize()', function(){
   });
 });
 
+describe('generator()', function(){
+  it('iterates through chars', function(){
+    var generator = util.generator('abcdefg');
+    expect(generator()).to.equal('a');
+    expect(generator()).to.equal('b');
+    expect(generator()).to.equal('c');
+    expect(generator()).to.equal('d');
+    expect(generator()).to.equal('e');
+    expect(generator()).to.equal('f');
+    expect(generator()).to.equal('g');
+  });
+
+  it('yields null after chars are exhausted', function(){
+    var generator = util.generator('abc');
+    expect(generator()).to.equal('a');
+    expect(generator()).to.equal('b');
+    expect(generator()).to.equal('c');
+    expect(generator()).to.equal(null);
+    expect(generator()).to.equal(null);
+    expect(generator()).to.equal(null);
+  });
+});
+
 describe('endlessGenerator()', function(){
   it('iterates through chars', function(){
     var generator = util.endlessGenerator('abcdefg');

@@ -57,13 +57,16 @@ module.exports.HtmlGenerator = function(styleDicts){
       });
 
       var sortedCounter = counter.sortByMostFrequent();
+      var generator = util.generator('ibaq');
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
         var key = sortedCounter[i][0];
         var val = sortedCounter[i][1];
-        if(val > 1){
-          tags.i = key.split(',');
+        var nextTag = generator();
+        if(val <= 1 || nextTag === null){
+          break;
         }
+        tags[nextTag] = key.split(',');
       }
       return tags;
     }(),
@@ -82,9 +85,10 @@ module.exports.HtmlGenerator = function(styleDicts){
       for(var i=0; i < sortedCounter.length; i++){
         var key = sortedCounter[i][0];
         var val = sortedCounter[i][1];
-        if(val > 1){
-          classes[key] = generator();
+        if(val <= 1){
+          break;
         }
+        classes[key] = generator();
       }
       return classes;
     }()

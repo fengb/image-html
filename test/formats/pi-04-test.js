@@ -11,8 +11,12 @@ describe('Pi04.HtmlGenerator', function(){
 
     it('groups multiple uses to one tag', function(){
       var gen = new HtmlGenerator([{top: '0', left: '0'},
-                                   {top: '0', left: '0'}]);
+                                   {top: '0', left: '0'},
+                                   {top: '0', left: '0'},
+                                   {top: '0', right: '0'},
+                                   {top: '0', right: '0'}]);
       expect(gen.testable.tags.i).to.eql(['top: 0', 'left: 0']);
+      expect(gen.testable.tags.b).to.eql(['top: 0', 'right: 0']);
     });
   });
 
