@@ -37,7 +37,7 @@ module.exports = function(pixels, id){
 };
 
 
-module.exports.Aggregator = function(stylesElements){
+var Aggregator = module.exports.Aggregator = function(stylesElements){
   return {
     tags: function(){
       var counter = util.counter();
@@ -88,6 +88,10 @@ var Formatter = module.exports.Formatter = function(aggregate){
   return {
     styles: function(prepend){
       var ret = [util.format('{0} * { display: inline-block; height: 1px }', prepend)];
+      for(var t in aggregate.tags){
+        ret.push(util.format('{0} {1} { {2} }', prepend, t, aggregate.tags[t].join('; ')));
+      }
+
       for(var c in aggregate.classes){
         ret.push(util.format('{0} .{1} { {2} }', prepend, aggregate.classes[c], c));
       }
@@ -114,7 +118,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     elementFor: function(searchStyles){
-      var values = public.valuesFor(searchStyles);
+      var values = this.valuesFor(searchStyles);
       var attrs = '';
       if(values.classes){
         attrs += util.format(' class="{0}"', values.classes);

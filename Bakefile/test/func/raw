@@ -8,7 +8,7 @@ declare -a failed=()
 mkdir -p $dir
 elapsed=$(time (
 for format in `ls src/formats | sed 's/\.js$//g'`; do
-  $exe --format $format example.png $dir/$format.html
+  $exe --format $format example.png $dir/$format.html 2>&3
   $BAKE -s render --viewport 200x199 $dir/$format.html $dir/$format.png
   # FIXME: use return status once that is fixed
   status=`node_modules/.bin/imagediff -e example.png $dir/$format.png`

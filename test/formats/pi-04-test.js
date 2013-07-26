@@ -43,6 +43,10 @@ describe('Pi04.Aggregator', function(){
 describe('Pi04.Formatter', function(){
   before(function(){
     this.fmt = Pi04.Formatter({
+      tags: {
+        'i': ['top: 0', 'left: 0']
+      },
+
       classes: {
         'top: 0': 'foo',
         'left: 0': 'bar',
@@ -52,11 +56,12 @@ describe('Pi04.Formatter', function(){
 
   describe('.styles()', function(){
     it('outputs all relevant class definitions', function(){
-      var styles = this.fmt.styles('o');
+      var styles = this.fmt.styles('prepend');
       expect(styles.sort()).to.eql([
-        'o * { display: inline-block; height: 1px }',
-        'o .foo { top: 0 }',
-        'o .bar { left: 0 }'
+        'prepend * { display: inline-block; height: 1px }',
+        'prepend i { top: 0; left: 0 }',
+        'prepend .foo { top: 0 }',
+        'prepend .bar { left: 0 }'
       ].sort());
     });
   });
