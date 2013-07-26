@@ -101,9 +101,14 @@ var Formatter = module.exports.Formatter = function(aggregate){
     valuesFor: function(searchStyles){
       for(var tag in aggregate.tags){
         if(util.arrayEquals(aggregate.tags[tag], searchStyles)){
-          break;
+          return {
+            tag: tag,
+            classes: '',
+            styles: ''
+          };
         }
       }
+
       var classes = [];
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){

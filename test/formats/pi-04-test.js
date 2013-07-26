@@ -44,13 +44,13 @@ describe('Pi04.Formatter', function(){
   before(function(){
     this.fmt = Pi04.Formatter({
       tags: {
-        'i': ['top: 1', 'left: 1'],
-        'b': ['top: 2', 'left: 2']
+        'i': ['top: 0', 'left: 0'],
+        'b': ['top: 1', 'left: 1']
       },
 
       classes: {
-        'top: 0': 'foo',
-        'left: 0': 'bar',
+        'top: 2': 'foo',
+        'left: 2': 'bar',
       }
     });
   });
@@ -60,35 +60,37 @@ describe('Pi04.Formatter', function(){
       var styles = this.fmt.styles('prepend');
       expect(styles.sort()).to.eql([
         'prepend * { display: inline-block; height: 1px }',
-        'prepend i { top: 1; left: 1 }',
-        'prepend b { top: 2; left: 2 }',
-        'prepend .foo { top: 0 }',
-        'prepend .bar { left: 0 }'
+        'prepend i { top: 0; left: 0 }',
+        'prepend b { top: 1; left: 1 }',
+        'prepend .foo { top: 2 }',
+        'prepend .bar { left: 2 }'
       ].sort());
     });
   });
 
   describe('.valuesFor()', function(){
-    it('uses tags when possible', function(){
-      expect(this.fmt.valuesFor(['top: 1', 'left: 1']).tag).to.equal('i');
-      expect(this.fmt.valuesFor(['top: 2', 'left: 2']).tag).to.equal('b');
+    it('uses only tags when possible', function(){
+      var out = [
+        this.fmt.valuesFor(['top: 0', 'left: 0']),
+        this.fmt.valuesFor(['top: 1', 'left: 1'])
+      ];
+      expect(out[0].tag).to.equal('i');
+      expect(out[1].tag).to.equal('b');
+      expect(out[0].classes).to.equal('');
+      expect(out[1].classes).to.equal('');
+      expect(out[0].styles).to.equal('');
+      expect(out[1].styles).to.equal('');
     });
 
     it('uses classes when possible', function(){
-      expect(this.fmt.valuesFor(['top: 0']).classes).to.equal('foo');
-      expect(this.fmt.valuesFor(['left: 0']).classes).to.equal('bar');
-      expect(this.fmt.valuesFor(['top: 0', 'left: 0']).classes).to.equal('foo bar');
+      expect(this.fmt.valuesFor(['top: 2']).classes).to.equal('foo');
+      expect(this.fmt.valuesFor(['left: 2']).classes).to.equal('bar');
+      expect(this.fmt.valuesFor(['top: 2', 'left: 2']).classes).to.equal('foo bar');
     });
 
     it('keeps styles when cannot find classes', function(){
-      expect(this.fmt.valuesFor(['left: 1']).styles).to.equal('left: 1');
-      expect(this.fmt.valuesFor(['top: 1', 'left: 1']).styles).to.equal('top: 1; left: 1');
-    });
-
-    it('combines outputs', function(){
-      var topright = this.fmt.valuesFor(['top: 0', 'right: 0']);
-      expect(topright.classes).to.equal('foo');
-      expect(topright.styles).to.equal('right: 0');
+      expect(this.fmt.valuesFor(['left: 3']).styles).to.equal('left: 3');
+      expect(this.fmt.valuesFor(['top: 3', 'left: 3']).styles).to.equal('top: 3; left: 3');
     });
   });
 });
