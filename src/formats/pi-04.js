@@ -12,14 +12,13 @@ module.exports = function(pixels, id){
   var styles = [];
   for(var i=0; i < unrolledSegments.length; i++){
     var segment = unrolledSegments[i];
-    segment.styles = {
-      background: '#' + segment.value.hex(),
-      width: segment.length + 'px',
-      height: '1px'
-    };
+    segment.styles = [
+      util.format('background: #{0}', segment.value.hex()),
+      util.format('width: {0}px', segment.length)
+    ];
     styles.push(segment.styles);
   }
-  var fmt = Formatter.fromStyleDicts(styles);
+  var fmt = Formatter.fromStylesElements(styles);
 
   return {
     css: function(){
@@ -38,21 +37,12 @@ module.exports = function(pixels, id){
 };
 
 
-function stringifyStyles(styleDict){
-  var stringified = [];
-  for(var key in styleDict){
-    stringified.push(util.format('{0}: {1}', key, styleDict[key]));
-  }
-  return stringified;
-}
-
-
-module.exports.Aggregator = function(styleDicts){
+module.exports.Aggregator = function(stylesElements){
   return {
     tags: function(){
       var counter = util.counter();
-      styleDicts.forEach(function(styleDict){
-        counter.add(stringifyStyles(styleDict).join(','));
+      stylesElements.forEach(function(stylesElement){
+        counter.add(stylesElement.join(','));
       });
 
       var sortedCounter = counter.sortByMostFrequent();
@@ -72,8 +62,8 @@ module.exports.Aggregator = function(styleDicts){
 
     classes: function(){
       var flatStyles = [];
-      styleDicts.forEach(function(styleDict){
-        flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
+      stylesElements.forEach(function(stylesElement){
+        flatStyles.push.apply(flatStyles, stylesElement);
       });
 
       var counter = util.counter(flatStyles);
@@ -97,7 +87,7 @@ module.exports.Aggregator = function(styleDicts){
 var Formatter = module.exports.Formatter = function(aggregate){
   return {
     styles: function(prepend){
-      var ret = [util.format('{0} * { display: inline-block }', prepend)];
+      var ret = [util.format('{0} * { display: inline-block; height: 1px }', prepend)];
       for(var c in aggregate.classes){
         ret.push(util.format('{0} .{1} { {2} }', prepend, aggregate.classes[c], c));
       }
@@ -105,8 +95,6 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     valuesFor: function(searchStyles){
-      searchStyles = stringifyStyles(searchStyles);
-
       var classes = [];
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){
@@ -139,7 +127,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
   };
 };
 
-Formatter.fromStyleDicts = function(styleDicts){
-  var agg = Aggregator(styleDicts);
+Formatter.fromStylesElements = function(stylesElements){
+  var agg = Aggregator(stylesElements);
   return Formatter(agg);
 };
