@@ -57,6 +57,17 @@ var util = module.exports = {
     };
   },
 
+  arrayEquals: function(arr1, arr2){
+    if(arr1 === arr2) return true;
+    if(!arr1 || !arr2) return false;
+    if(arr1.length != arr2.length) return false;
+
+    for(var i=0; i < arr2.length; ++i) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+  },
+
   generator: function(chars){
     var index = 0;
     return function(){

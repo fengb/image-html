@@ -46,7 +46,7 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
       });
 
       var sortedCounter = counter.sortByMostFrequent();
-      var generator = util.generator('ibaq');
+      var generator = util.generator('iba');
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
         var key = sortedCounter[i][0];
@@ -99,6 +99,11 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     valuesFor: function(searchStyles){
+      for(var tag in aggregate.tags){
+        if(util.arrayEquals(aggregate.tags[tag], searchStyles)){
+          break;
+        }
+      }
       var classes = [];
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){
@@ -111,7 +116,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
       }
 
       return {
-        element: 'i',
+        tag: tag,
         classes: classes.join(' '),
         styles: styles.join('; ')
       };
@@ -126,7 +131,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
       if(values.styles){
         attrs += util.format(' style="{0}"', values.styles);
       }
-      return util.format('<{0}{1}></{0}\n>', values.element, attrs);
+      return util.format('<{0}{1}></{0}\n>', values.tag, attrs);
     }
   };
 };

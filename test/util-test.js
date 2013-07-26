@@ -79,6 +79,18 @@ describe('memoize()', function(){
   });
 });
 
+describe('arrayEquals()', function(){
+  it('is true for same arrays', function(){
+    expect(util.arrayEquals([1, 2, 3], [1, 2, 3])).to.be(true);
+    expect(util.arrayEquals([1, 3, 5], [1, 3, 5])).to.be(true);
+  });
+
+  it('is false for different arrays', function(){
+    expect(util.arrayEquals([1, 2, 3], [1, 2, 2])).to.be(false);
+    expect(util.arrayEquals([1, 2, 3], [1, 1])).to.be(false);
+  });
+});
+
 describe('generator()', function(){
   it('iterates through chars', function(){
     var generator = util.generator('abcdefg');

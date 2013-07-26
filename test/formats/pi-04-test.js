@@ -44,7 +44,8 @@ describe('Pi04.Formatter', function(){
   before(function(){
     this.fmt = Pi04.Formatter({
       tags: {
-        'i': ['top: 0', 'left: 0']
+        'i': ['top: 1', 'left: 1'],
+        'b': ['top: 2', 'left: 2']
       },
 
       classes: {
@@ -59,7 +60,8 @@ describe('Pi04.Formatter', function(){
       var styles = this.fmt.styles('prepend');
       expect(styles.sort()).to.eql([
         'prepend * { display: inline-block; height: 1px }',
-        'prepend i { top: 0; left: 0 }',
+        'prepend i { top: 1; left: 1 }',
+        'prepend b { top: 2; left: 2 }',
         'prepend .foo { top: 0 }',
         'prepend .bar { left: 0 }'
       ].sort());
@@ -67,6 +69,11 @@ describe('Pi04.Formatter', function(){
   });
 
   describe('.valuesFor()', function(){
+    it('uses tags when possible', function(){
+      expect(this.fmt.valuesFor(['top: 1', 'left: 1']).tag).to.equal('i');
+      expect(this.fmt.valuesFor(['top: 2', 'left: 2']).tag).to.equal('b');
+    });
+
     it('uses classes when possible', function(){
       expect(this.fmt.valuesFor(['top: 0']).classes).to.equal('foo');
       expect(this.fmt.valuesFor(['left: 0']).classes).to.equal('bar');
