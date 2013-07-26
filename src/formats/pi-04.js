@@ -19,41 +19,40 @@ module.exports = function(pixels, id){
     };
     styles.push(segment.styles);
   }
-  var gen = new HtmlGenerator(styles);
+  var fmt = Formatter.fromStyleDicts(styles);
 
   return {
     css: function(){
       return util.format('#{0} { width: {1}px; margin: 0; }\n',
                          id, pixels.cols) +
-             gen.styles('#'+id).join('\n');
+             fmt.styles('#'+id).join('\n');
     },
 
     html: function(){
       return util.format('<p id="{0}"\n>{1}</p>', id,
                          unrolledSegments.map(function(s){
-                           return gen.elementFor(s.styles);
+                           return fmt.elementFor(s.styles);
                          }).join(''));
     }
   };
 };
 
 
-module.exports.HtmlGenerator = function(styleDicts){
-  var private = {
-    stringifyStyles: function(styleDict){
-      var stringified = [];
-      for(var key in styleDict){
-        stringified.push(util.format('{0}: {1}', key, styleDict[key]));
-      }
-      return stringified;
-    }
-  };
+function stringifyStyles(styleDict){
+  var stringified = [];
+  for(var key in styleDict){
+    stringified.push(util.format('{0}: {1}', key, styleDict[key]));
+  }
+  return stringified;
+}
 
-  var testable = {
+
+module.exports.Aggregator = function(styleDicts){
+  return {
     tags: function(){
       var counter = util.counter();
       styleDicts.forEach(function(styleDict){
-        counter.add(private.stringifyStyles(styleDict).join(','));
+        counter.add(stringifyStyles(styleDict).join(','));
       });
 
       var sortedCounter = counter.sortByMostFrequent();
@@ -74,7 +73,7 @@ module.exports.HtmlGenerator = function(styleDicts){
     classes: function(){
       var flatStyles = [];
       styleDicts.forEach(function(styleDict){
-        flatStyles.push.apply(flatStyles, private.stringifyStyles(styleDict));
+        flatStyles.push.apply(flatStyles, stringifyStyles(styleDict));
       });
 
       var counter = util.counter(flatStyles);
@@ -93,26 +92,27 @@ module.exports.HtmlGenerator = function(styleDicts){
       return classes;
     }()
   };
+};
 
-  var public = {
-    testable: testable,
+var Formatter = module.exports.Formatter = function(aggregate){
+  return {
     styles: function(prepend){
-      var ret = [util.format('{0} * { display: inline-block; }', prepend)];
-      for(var c in testable.classes){
-        ret.push(util.format('{0} .{1} { {2} }', prepend, testable.classes[c], c));
+      var ret = [util.format('{0} * { display: inline-block }', prepend)];
+      for(var c in aggregate.classes){
+        ret.push(util.format('{0} .{1} { {2} }', prepend, aggregate.classes[c], c));
       }
       return ret;
     },
 
     valuesFor: function(searchStyles){
-      searchStyles = private.stringifyStyles(searchStyles);
+      searchStyles = stringifyStyles(searchStyles);
 
       var classes = [];
       var styles = [];
       for(var i=0; i < searchStyles.length; i++){
         var style = searchStyles[i];
-        if(testable.classes[style]){
-          classes.push(testable.classes[style]);
+        if(aggregate.classes[style]){
+          classes.push(aggregate.classes[style]);
         } else {
           styles.push(style);
         }
@@ -137,6 +137,9 @@ module.exports.HtmlGenerator = function(styleDicts){
       return util.format('<{0}{1}></{0}\n>', values.element, attrs);
     }
   };
-  return public;
 };
 
+Formatter.fromStyleDicts = function(styleDicts){
+  var agg = Aggregator(styleDicts);
+  return Formatter(agg);
+};
