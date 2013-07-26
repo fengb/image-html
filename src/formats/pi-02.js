@@ -7,8 +7,8 @@ module.exports = function(pixels, id){
 
   return {
     css: function(){
-      return format('#{0} { width: {1}px; margin: 0; }\n' +
-                    '#{0} i { display: inline-block; width: 1px; height: 1px; }',
+      return format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n' +
+                    '#{0} i { float: left; width: 1px; height: 1px; }',
                     id, pixels.cols);
     },
 

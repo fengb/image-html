@@ -32,7 +32,8 @@ var data = fs.readFileSync(opts.args[1]);
 var img = new Image();
 img.src = data;
 var output = ImageHtml.convert(img, 'a', opts.format);
-var html = ['<html>',
+var html = ['<!DOCTYPE html>',
+            '<html>',
             '<head>',
             '<style>',
             output.css(),

@@ -57,7 +57,8 @@ setInterval(function(){
 
   if(output) {
     var outfile = opts.args[1] ? fs.open(opts.args[1], 'w') : sys.stdout;
-    outfile.write(['<html>',
+    outfile.write(['<!DOCTYPE html>',
+                   '<html>',
                    '<head>',
                    '<style>',
                    output.css,

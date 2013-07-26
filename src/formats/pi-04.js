@@ -22,7 +22,7 @@ module.exports = function(pixels, id){
 
   return {
     css: function(){
-      return util.format('#{0} { width: {1}px; margin: 0; }\n',
+      return util.format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n',
                          id, pixels.cols) +
              fmt.styles('#'+id).join('\n');
     },
@@ -103,7 +103,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
 
     styles: function(prepend){
       var ret = [
-        util.format('{0} * { display: inline-block; height: 1px; vertical-align: baseline; margin: 0; padding: 0 }', prepend),
+        util.format('{0} * { float: left; height: 1px; vertical-align: baseline; margin: 0; padding: 0 }', prepend),
         util.format('{0} *:before { content: "" }', prepend),
         util.format('{0} *:after { content: "" }', prepend)
       ];
