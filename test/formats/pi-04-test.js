@@ -72,7 +72,9 @@ describe('Pi04.Formatter', function(){
     it('outputs all relevant class definitions', function(){
       var styles = this.fmt.styles('prepend');
       expect(styles.sort()).to.eql([
-        'prepend * { display: inline-block; height: 1px }',
+        'prepend * { display: inline-block; height: 1px; vertical-align: baseline }',
+        'prepend *:before { content: "" }',
+        'prepend *:after { content: "" }',
         'prepend i { top: 0; left: 0 }',
         'prepend b { top: 1; left: 1 }',
         'prepend .foo { top: 2 }',

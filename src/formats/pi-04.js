@@ -47,9 +47,9 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
 
       var sortedCounter = counter.sortByMostFrequent();
       var generator = util.generator([
-        'i', 'b', 'a',
+        'i', 'b', 'a', 'q',
         'em',
-        'dfn', 'kbd', 'var', 'ins',
+        'dfn', 'kbd', 'var', 'ins', 'sup', 'sub',
         'span', 'samp', 'code', 'abbr',
         'small',
         'strong']);
@@ -103,7 +103,11 @@ var Formatter = module.exports.Formatter = function(aggregate){
     }(),
 
     styles: function(prepend){
-      var ret = [util.format('{0} * { display: inline-block; height: 1px }', prepend)];
+      var ret = [
+        util.format('{0} * { display: inline-block; height: 1px; vertical-align: baseline }', prepend),
+        util.format('{0} *:before { content: "" }', prepend),
+        util.format('{0} *:after { content: "" }', prepend)
+      ];
       for(var t in aggregate.tags){
         ret.push(util.format('{0} {1} { {2} }', prepend, t, aggregate.tags[t].join('; ')));
       }
