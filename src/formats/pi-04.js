@@ -28,7 +28,7 @@ module.exports = function(pixels, id){
     },
 
     html: function(){
-      return util.format('<p id="{0}"\n>{1}</p>', id,
+      return util.format('<div id="{0}"\n>{1}</div>', id,
                          unrolledSegments.map(function(s){
                            return fmt.elementFor(s.styles);
                          }).join(''));
@@ -47,12 +47,11 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
 
       var sortedCounter = counter.sortByMostFrequent();
       var generator = util.generator([
-        'i', 'b', 'a', 'q',
-        'em',
-        'dfn', 'kbd', 'var', 'ins', 'sup', 'sub',
-        'span', 'samp', 'code', 'abbr',
-        'small',
-        'strong']);
+        'i', 'b', 'a', 'p', 'q', 'u',
+        'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'dl',
+        'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi', 'bdo',
+        'span', 'samp', 'code', 'abbr', 'form', 'main', 'cite', 'ruby', 'mark', 'menu'
+      ]);
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
         var key = sortedCounter[i][0];
@@ -104,7 +103,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
 
     styles: function(prepend){
       var ret = [
-        util.format('{0} * { display: inline-block; height: 1px; vertical-align: baseline }', prepend),
+        util.format('{0} * { display: inline-block; height: 1px; vertical-align: baseline; margin: 0; padding: 0 }', prepend),
         util.format('{0} *:before { content: "" }', prepend),
         util.format('{0} *:after { content: "" }', prepend)
       ];
