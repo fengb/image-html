@@ -99,6 +99,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     valuesFor: function(searchStyles){
+      /* Tag matches everything */
       for(var tag in aggregate.tags){
         if(util.arrayEquals(aggregate.tags[tag], searchStyles)){
           return {
@@ -108,6 +109,19 @@ var Formatter = module.exports.Formatter = function(aggregate){
           };
         }
       }
+
+      /* Tag matches one thing */
+      tag = function(){
+        for(var t in aggregate.tags){
+          for(var i=0; i < searchStyles.length; i++){
+            if(aggregate.tags[t].indexOf(searchStyles[i]) != -1){
+              return t;
+            }
+          }
+        }
+        return t;
+      }();
+      searchStyles = util.arrayDiff(searchStyles, aggregate.tags[tag]);
 
       var classes = [];
       var styles = [];

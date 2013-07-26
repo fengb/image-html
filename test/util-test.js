@@ -91,6 +91,12 @@ describe('arrayEquals()', function(){
   });
 });
 
+describe('arrayDiff()', function(){
+  it('returns elements from first array that are not in second', function(){
+    expect(util.arrayDiff([1, 2, 3], [1, 3])).to.eql([2]);
+  });
+});
+
 describe('generator()', function(){
   it('iterates through chars', function(){
     var generator = util.generator('abcdefg');

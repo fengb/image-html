@@ -68,6 +68,16 @@ var util = module.exports = {
     return true;
   },
 
+  arrayDiff: function(arr1, arr2){
+    for(var i2=0; i2 < arr2.length; i2++){
+      var i1 = arr1.indexOf(arr2[i2]);
+      if(i1 != -1){
+        arr1.splice(i1, 1);
+      }
+    }
+    return arr1;
+  },
+
   generator: function(chars){
     var index = 0;
     return function(){

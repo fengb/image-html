@@ -92,5 +92,20 @@ describe('Pi04.Formatter', function(){
       expect(this.fmt.valuesFor(['left: 3']).styles).to.equal('left: 3');
       expect(this.fmt.valuesFor(['top: 3', 'left: 3']).styles).to.equal('top: 3; left: 3');
     });
+
+    it('combines outputs', function(){
+      var out = {
+        tagClass:   this.fmt.valuesFor(['top: 1', 'left: 2']),
+        tagStyle:   this.fmt.valuesFor(['top: 1', 'left: 3']),
+        classStyle: this.fmt.valuesFor(['top: 2', 'left: 3'])
+      };
+
+      expect(out.tagClass.tag).to.equal('b');
+      expect(out.tagClass.classes).to.equal('bar');
+      expect(out.tagStyle.tag).to.equal('b');
+      expect(out.tagStyle.styles).to.equal('left: 3');
+      expect(out.classStyle.classes).to.equal('foo');
+      expect(out.classStyle.styles).to.equal('left: 3');
+    });
   });
 });
