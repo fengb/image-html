@@ -50,10 +50,11 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
 
       var sortedCounter = counter.sortByMostFrequent();
       var generator = util.generator([
-        'i', 'b', 'a', 'p', 'q', 'u',
+        'i', 'b', 'a', 'p', 'q', 'u', 's',
         'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'dl',
         'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi', 'bdo',
-        'span', 'samp', 'code', 'abbr', 'form', 'main', 'cite', 'ruby', 'mark', 'menu'
+        'span', 'samp', 'code', 'abbr', 'form', 'cite', 'ruby', 'mark', 'menu',
+        'small', 'aside'
       ]);
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
@@ -132,7 +133,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
       tag = function(){
         for(var t in aggregate.tags){
           for(var i=0; i < searchStyles.length; i++){
-            if(aggregate.tags[t].indexOf(searchStyles[i]) != -1){
+            if(t.length < 3 && aggregate.tags[t].indexOf(searchStyles[i]) != -1){
               return t;
             }
           }

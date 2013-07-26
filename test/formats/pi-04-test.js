@@ -124,5 +124,18 @@ describe('Pi04.Formatter', function(){
       expect(out.classStyle.classes).to.equal('foo');
       expect(out.classStyle.styles).to.equal('left: 3');
     });
+
+    it('does not combine tag when tag name is too long', function(){
+      var fmt = Pi04.Formatter({
+        tags: {
+          'verylong': ['top: 1', 'left: 1']
+        },
+
+        classes: {}
+      });
+      fmt.defaultTag = 'eh';
+      var out = fmt.valuesFor(['top: 1', 'left: 2']);
+      expect(out.tag).to.be(fmt.defaultTag);
+    });
   });
 });
