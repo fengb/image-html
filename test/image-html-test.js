@@ -9,7 +9,7 @@ describe('ImageHtml', function(){
       var files = fs.readdirSync(__dirname + '/../src/formats').map(function(f){
         return f.replace(/\.js/, '');
       });
-      expect(ImageHtml.formats()).to.eql(files);
+      expect(ImageHtml.formats()).to.eql(files.sort());
     });
   });
 });
