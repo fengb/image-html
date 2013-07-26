@@ -40,42 +40,74 @@ module.exports = function(pixels, id){
 };
 
 
-var Aggregator = module.exports.Aggregator = function(stylesElements){
+function bestMatch(tags, stylesElement){
+  for(var tag in tags){
+    if(util.arrayEquals(tags[tag], stylesElement)){
+      return {
+        tag: tag,
+        unmatchedStyles: []
+      };
+    }
+  }
+
+  /* Tag matches one thing */
+  for(var t in tags){
+    for(var i=0; i < stylesElement.length; i++){
+      var tagStyles = tags[t];
+      if(t.length < 3 && tags[t].indexOf(stylesElement[i]) != -1){
+        return {
+          tag: t,
+          unmatchedStyles: util.arrayDiff(stylesElement, tagStyles || [])
+        };
+      }
+    }
+  }
   return {
-    tags: function(){
+    tag: null,
+    unmatchedStyles: stylesElement
+  };
+}
+
+
+var Aggregator = module.exports.Aggregator = function(stylesElements){
+  var tags = function(){
+    var counter = util.counter();
+    stylesElements.forEach(function(stylesElement){
+      counter.add(stylesElement.join(';'));
+    });
+
+    var sortedCounter = counter.sortByMostFrequent();
+    var generator = util.generator([
+      'i', 'b', 'a', 'p', 'q', 'u', 's',
+      'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'dl',
+      'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi',
+      'span', 'samp', 'code', 'abbr', 'form', 'cite', 'mark', 'menu',
+      'small', 'aside', 'table'
+    ]);
+    var tags = {};
+    for(var i=0; i < sortedCounter.length; i++){
+      var key = sortedCounter[i][0];
+      var val = sortedCounter[i][1];
+      var nextTag = generator();
+      if(val <= 1 || nextTag === null){
+        break;
+      }
+      tags[nextTag] = key.split(';');
+    }
+    return tags;
+  }();
+
+  return {
+    tags: tags,
+    classes: function(){
       var counter = util.counter();
       stylesElements.forEach(function(stylesElement){
-        counter.add(stylesElement.join(','));
-      });
-
-      var sortedCounter = counter.sortByMostFrequent();
-      var generator = util.generator([
-        'i', 'b', 'a', 'p', 'q', 'u', 's',
-        'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'dl',
-        'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi',
-        'span', 'samp', 'code', 'abbr', 'form', 'cite', 'mark', 'menu',
-        'small', 'aside', 'table'
-      ]);
-      var tags = {};
-      for(var i=0; i < sortedCounter.length; i++){
-        var key = sortedCounter[i][0];
-        var val = sortedCounter[i][1];
-        var nextTag = generator();
-        if(val <= 1 || nextTag === null){
-          break;
+        var unmatchedStyles = bestMatch(tags, stylesElement).unmatchedStyles;
+        for(var i=0; i < unmatchedStyles.length; i++){
+          counter.add(unmatchedStyles[i]);
         }
-        tags[nextTag] = key.split(',');
-      }
-      return tags;
-    }(),
-
-    classes: function(){
-      var flatStyles = [];
-      stylesElements.forEach(function(stylesElement){
-        flatStyles.push.apply(flatStyles, stylesElement);
       });
 
-      var counter = util.counter(flatStyles);
       var generator = util.endlessGenerator('abcdefghijklmnopqrstuvwxyz');
       var sortedCounter = counter.sortByMostFrequent();
 
@@ -118,34 +150,13 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     valuesFor: function(searchStyles){
-      /* Tag matches everything */
-      for(var tag in aggregate.tags){
-        if(util.arrayEquals(aggregate.tags[tag], searchStyles)){
-          return {
-            tag: tag,
-            classes: '',
-            styles: ''
-          };
-        }
-      }
-
-      /* Tag matches one thing */
-      tag = function(){
-        for(var t in aggregate.tags){
-          for(var i=0; i < searchStyles.length; i++){
-            if(t.length < 3 && aggregate.tags[t].indexOf(searchStyles[i]) != -1){
-              return t;
-            }
-          }
-        }
-        return self.defaultTag;
-      }();
-      searchStyles = util.arrayDiff(searchStyles, aggregate.tags[tag] || []);
+      var match = bestMatch(aggregate.tags, searchStyles);
+      var tag = match.tag || self.defaultTag;
 
       var classes = [];
       var styles = [];
-      for(var i=0; i < searchStyles.length; i++){
-        var style = searchStyles[i];
+      for(var i=0; i < match.unmatchedStyles.length; i++){
+        var style = match.unmatchedStyles[i];
         if(aggregate.classes[style]){
           classes.push(aggregate.classes[style]);
         } else {

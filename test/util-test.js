@@ -95,6 +95,14 @@ describe('arrayDiff()', function(){
   it('returns elements from first array that are not in second', function(){
     expect(util.arrayDiff([1, 2, 3], [1, 3])).to.eql([2]);
   });
+
+  it('does not change arrays', function(){
+    var a1 = [1, 2, 3];
+    var a2 = [1, 2, 3];
+    util.arrayDiff(a1, a2);
+    expect(a1).to.eql([1, 2, 3]);
+    expect(a2).to.eql([1, 2, 3]);
+  });
 });
 
 describe('generator()', function(){

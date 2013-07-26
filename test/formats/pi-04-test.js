@@ -21,9 +21,15 @@ describe('Pi04.Aggregator', function(){
   });
 
   describe('.classes', function(){
-    it('converts styles into classes', function(){
+    it('does not convert already tagged into classes', function(){
       var agg = Pi04.Aggregator([['top: 0'],
                                  ['top: 0']]);
+      expect(agg.classes).to.not.have.property('top: 0');
+    });
+
+    it('converts styles into classes', function(){
+      var agg = Pi04.Aggregator([['top: 0', 'left: 0'],
+                                 ['top: 0', 'right: 0']]);
       expect(agg.classes['top: 0']).to.match(/^[a-z]$/);
     });
 
@@ -33,8 +39,8 @@ describe('Pi04.Aggregator', function(){
     });
 
     it('uses unique classes', function(){
-      var agg = Pi04.Aggregator([['top: 0', 'left: 0'],
-                                 ['top: 0', 'left: 0']]);
+      var agg = Pi04.Aggregator([['top: 0', 'left: 0', 'right: 0'],
+                                 ['top: 0', 'left: 0', 'right: 1']]);
       expect(agg.classes['top: 0']).to.not.equal(agg.classes['left: 0']);
     });
   });

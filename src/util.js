@@ -69,13 +69,14 @@ var util = module.exports = {
   },
 
   arrayDiff: function(arr1, arr2){
-    for(var i2=0; i2 < arr2.length; i2++){
-      var i1 = arr1.indexOf(arr2[i2]);
-      if(i1 != -1){
-        arr1.splice(i1, 1);
+    var diff = [];
+    for(var i1=0; i1 < arr1.length; i1++){
+      var i2 = arr2.indexOf(arr1[i1]);
+      if(i2 === -1){
+        diff.push(arr1[i1]);
       }
     }
-    return arr1;
+    return diff;
   },
 
   generator: function(chars){
