@@ -60,6 +60,7 @@ setInterval(function(){
     outfile.write(['<!DOCTYPE html>',
                    '<html>',
                    '<head>',
+                   '<title>'+opts.args[1]+'</title>',
                    '<style>',
                    output.css,
                    '</style>',

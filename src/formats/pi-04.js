@@ -23,7 +23,7 @@ module.exports = function(pixels, id){
   return {
     css: function(){
       return util.format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n'+
-                         '#{0} * { float: left; height: 1px; vertical-align: baseline; margin: 0; padding: 0 }\n'+
+                         '#{0} * { float: left; height: 1px; vertical-align: baseline; margin: 0; padding: 0; border-collapse: collapse }\n'+
                          '#{0} *:before { content: "" }\n'+
                          '#{0} *:after { content: "" }\n',
                          id, pixels.cols) +
@@ -52,9 +52,9 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
       var generator = util.generator([
         'i', 'b', 'a', 'p', 'q', 'u', 's',
         'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul', 'dl',
-        'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi', 'bdo',
-        'span', 'samp', 'code', 'abbr', 'form', 'cite', 'ruby', 'mark', 'menu',
-        'small', 'aside'
+        'dfn', 'kbd', 'var', 'ins', 'del', 'sup', 'sub', 'nav', 'pre', 'div', 'bdi',
+        'span', 'samp', 'code', 'abbr', 'form', 'cite', 'mark', 'menu',
+        'small', 'aside', 'table'
       ]);
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
