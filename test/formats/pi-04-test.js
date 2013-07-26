@@ -55,6 +55,19 @@ describe('Pi04.Formatter', function(){
     });
   });
 
+  describe('.defaultTag', function(){
+    it('is shortest of the tags', function(){
+      var fmt = Pi04.Formatter({
+        tags: {
+          'iamlong': [],
+          'iamlonger': [],
+          'short': []
+        }
+      });
+      expect(fmt.defaultTag).to.equal('short');
+    });
+  });
+
   describe('.styles()', function(){
     it('outputs all relevant class definitions', function(){
       var styles = this.fmt.styles('prepend');
@@ -80,6 +93,11 @@ describe('Pi04.Formatter', function(){
       expect(out[1].classes).to.equal('');
       expect(out[0].styles).to.equal('');
       expect(out[1].styles).to.equal('');
+    });
+
+    it('uses defaultTag when tag not found', function(){
+      this.fmt.defaultTag = 'default';
+      expect(this.fmt.valuesFor(['top: 3', 'left: 3']).tag).to.equal('default');
     });
 
     it('uses classes when possible', function(){

@@ -46,7 +46,13 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
       });
 
       var sortedCounter = counter.sortByMostFrequent();
-      var generator = util.generator('iba');
+      var generator = util.generator([
+        'i', 'b', 'a',
+        'em',
+        'dfn', 'kbd', 'var', 'ins',
+        'span', 'samp', 'code', 'abbr',
+        'small',
+        'strong']);
       var tags = {};
       for(var i=0; i < sortedCounter.length; i++){
         var key = sortedCounter[i][0];
@@ -85,7 +91,17 @@ var Aggregator = module.exports.Aggregator = function(stylesElements){
 };
 
 var Formatter = module.exports.Formatter = function(aggregate){
-  return {
+  var self = {
+    defaultTag: function(){
+      var tag;
+      for(var t in aggregate.tags){
+        if(!tag || t.length < tag.length){
+          tag = t;
+        }
+      }
+      return tag;
+    }(),
+
     styles: function(prepend){
       var ret = [util.format('{0} * { display: inline-block; height: 1px }', prepend)];
       for(var t in aggregate.tags){
@@ -119,9 +135,9 @@ var Formatter = module.exports.Formatter = function(aggregate){
             }
           }
         }
-        return t;
+        return self.defaultTag;
       }();
-      searchStyles = util.arrayDiff(searchStyles, aggregate.tags[tag]);
+      searchStyles = util.arrayDiff(searchStyles, aggregate.tags[tag] || []);
 
       var classes = [];
       var styles = [];
@@ -142,7 +158,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
     },
 
     elementFor: function(searchStyles){
-      var values = this.valuesFor(searchStyles);
+      var values = self.valuesFor(searchStyles);
       var attrs = '';
       if(values.classes){
         attrs += util.format(' class="{0}"', values.classes);
@@ -153,6 +169,7 @@ var Formatter = module.exports.Formatter = function(aggregate){
       return util.format('<{0}{1}></{0}\n>', values.tag, attrs);
     }
   };
+  return self;
 };
 
 Formatter.fromStylesElements = function(stylesElements){
