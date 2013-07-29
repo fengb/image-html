@@ -1,7 +1,8 @@
 !function(){
   var input = {
     upload: document.getElementById('upload'),
-    format: document.getElementById('format')
+    format: document.getElementById('format'),
+    imageId: document.getElementById('image-id'),
   };
   var img = {
     display: document.getElementById('display'),
@@ -25,8 +26,8 @@
     reader.readAsDataURL(input.upload.files[0]);
   };
 
-  input.format.onchange = img.raw.onload = function(evt){
-    var out = ImageHtml.convert(img.raw, 'a', input.format.value);
+  input.imageId.onchange = input.format.onchange = img.raw.onload = function(evt){
+    var out = ImageHtml.convert(img.raw, input.imageId.value, input.format.value);
     output.css.textContent = out.css();
     output.html.textContent = out.html();
     output.css.disabled = false;

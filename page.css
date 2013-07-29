@@ -14,6 +14,14 @@ img#display {
 }
 img#raw { display: none; }
 
+label {
+  display: block;
+}
+label strong {
+  display: inline-block;
+  width: 70px;
+}
+
 section.out {
   margin-left: 30%;
 }
