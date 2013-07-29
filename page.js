@@ -13,8 +13,9 @@
     html: document.getElementById('html')
   };
 
-  ImageHtml.formats().forEach(function(format){
-    input.format.options.add(new Option(format, format));
+  ImageHtml.formats().forEach(function(format, index){
+    input.format.add(new Option(format, format));
+    input.format.selectedIndex = index;
   });
 
   input.upload.onchange = function(){
