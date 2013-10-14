@@ -9,7 +9,7 @@ mkdir -p $dir
 elapsed=$(time (
 for format in `ls src/formats | sed 's/\.js$//g'`; do
   $exe --format $format example.png $dir/$format.html 2>&3
-  $BAKE -s render --viewport 200x199 $dir/$format.html $dir/$format.png
+  $BAKE -q render --viewport 200x199 $dir/$format.html $dir/$format.png
   # FIXME: use return status once that is fixed
   status=`node_modules/.bin/imagediff -e example.png $dir/$format.png`
   if [ "$status" != true ]; then
@@ -20,6 +20,7 @@ for format in `ls src/formats | sed 's/\.js$//g'`; do
   fi
 done
 ) 3>&2 2>&1)
+
 echo
 sed -e 's;.*real *\([0-9]*m[0-9.]*s\).*;\1;' <<<$elapsed
 

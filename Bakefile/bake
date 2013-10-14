@@ -1,0 +1,132 @@
+#!/bin/bash
+# bake - Bash Make - v0.3.0dev - https://github.com/fengb/bake
+
+
+unset quiet
+
+taskdir=Bakefile
+default={default}
+newline='
+'
+
+
+taskfile() {
+  while read task; do
+    if [ -z "$task" ]; then
+      echo "$taskdir/$default"
+    elif [ -d "$taskdir/$task" ]; then
+      echo "$taskdir/$task/$default"
+    elif [ -e "$taskdir/$task" ]; then
+      echo "$taskdir/$task"
+    elif [[ "$task" == */* ]]; then
+      echo "$taskdir/$task".*
+    else
+      find $taskdir -type f -name "$task" -or -name "$task.*" -or -path "*/$task/$default"
+    fi
+  done
+}
+
+
+taskname() {
+  delete_extension="s;\.[^/]*$;;"
+  convert_directory_task="s;/$default;;"
+  sed -e "s;^$taskdir/;;" -e "$delete_extension" -e $convert_directory_task
+}
+
+
+desc() {
+  while read file; do
+    if [ ! -x "$file" ]; then
+      echo "!!  not executable"
+    elif grep -q '###' "$file"; then
+      sed -e '/###/!d' -e 's/^### */##  /' "$file"
+    else
+      deps=$(sed -e "s;&&;\\$newline;g" "$file"    \
+           | sed -e '/^ *$BAKE/!d'                 \
+                 -e '/^ *$BAKE *-s/d'              \
+                 -e 's;^ *$BAKE *\([^ ]*\).*$;\1;' \
+                 -e '/^$/d'                        \
+           | tr "\n" ' ')
+      if [ -n "$deps" ]; then
+        echo -n "->  $deps"
+      fi
+    fi
+  done
+}
+
+
+help() {
+  tasks=`grep --recursive --files-without-match ==-==-== "$taskdir"| sort | taskname`
+  maxlength=`awk '{ if ( length > L ) { L=length} }END{ print L}' <<<"$tasks"`
+  for task in $tasks; do
+    printf "%-${maxlength}s  %s\n" "$task" "`taskfile <<<"$task" | desc`"
+  done
+}
+
+
+while getopts "qhb:" opt; do
+  case $opt in
+    q)
+      quiet=true
+      ;;
+    b)
+      if [ ! -d "$OPTARG" ]; then
+        echo "-bake: $OPTARG: taskdir not found" >&2
+        exit 1
+      fi
+      taskdir=`basename "$OPTARG"`
+      cd `dirname "$OPTARG"`
+      ;;
+    h)
+      cmd=help
+      ;;
+    \?)
+      echo "wtf?" >&2
+      exit 1
+      ;;
+    :)
+      echo "Arg?" >&2
+      exit 1
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+
+while [ ! -d "$taskdir" ]; do
+  cd ..
+  if [ "$PWD" = "$OLDPWD" ]; then
+    echo "-bake: no $taskdir found" >&2
+    exit 1
+  fi
+done
+
+
+if [ -n "$cmd" ]; then
+  $cmd
+  exit
+fi
+
+
+file=`taskfile <<<"$1"`
+if [[ "$file" == *$newline* ]]; then
+  echo "-bake: $1: task ambiguous" >&2
+  exit 1
+elif [ ! -f "$file" ]; then
+  if [ $# -eq 0 ]; then
+    echo "-bake: $default: task not defined" >&2
+    help
+    exit
+  fi
+
+  echo "-bake: $1: task does not exist" >&2
+  exit 1
+elif [ ! -x "$file" ]; then
+  echo "-bake: $1: task not executable" >&2
+  exit 1
+fi
+
+
+shift
+[[ -n "$quiet" ]] || echo Baking "'`taskname <<<$file`'"
+BAKE="bash $0" exec "$file" $@
