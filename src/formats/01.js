@@ -13,7 +13,7 @@ module.exports = function(pixels, id){
       var ret = format('<p id="{0}"\n>', id);
       for(var row=0; row < pixels.rows; row++){
         for(var col=0; col < pixels.cols; col++){
-          ret += format('<i style="background: #{0}"></i\n>', pixels[row][col].hex());
+          ret += format('<i style="background: {0}"></i\n>', pixels[row][col].css());
         }
       }
       return ret + '</p>';

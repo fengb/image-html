@@ -13,7 +13,7 @@ module.exports = function(pixels, id){
   for(var i=0; i < unrolledSegments.length; i++){
     var segment = unrolledSegments[i];
     segment.styles = [
-      util.format('background: #{0}', segment.value.hex()),
+      util.format('background: {0}', segment.value.css()),
       util.format('width: {0}px', segment.length)
     ];
     styles.push(segment.styles);
