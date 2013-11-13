@@ -1,3 +1,6 @@
+var util = require('./util');
+
+
 var Color = module.exports = function(r, g, b, a){
   this.r = r;
   this.g = g;
@@ -26,7 +29,14 @@ function hexify(num){
 }
 
 Color.prototype.css = function(){
-  return '#' + this.hex();
+  switch(this.a){
+    case 1:
+      return '#' + this.hex();
+    case 0:
+      return 'transparent';
+    default:
+      return util.format('rgba({0},{1},{2},{3})', this.r, this.g, this.b, this.a);
+  }
 };
 
 Color.prototype.hex = function(){
