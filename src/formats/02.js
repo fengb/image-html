@@ -18,8 +18,8 @@ module.exports = function(pixels, id){
         for(var segmentNum=0; segmentNum < pixelSegments[row].length; segmentNum++){
           var segment = pixelSegments[row][segmentNum];
           if(segment.length > 1){
-            ret += format('<i style="background: #{0}; width: {1}px"></i\n>',
-                          segment.value.hex(), segment.length);
+            ret += format('<i style="background: {0}; width: {1}px"></i\n>',
+                          segment.value.css(), segment.length);
           } else {
             ret += format('<i style="background: #{0}"></i\n>', segment.value.hex());
           }

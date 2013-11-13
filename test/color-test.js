@@ -3,23 +3,23 @@ var Color = require('../src/color');
 
 
 describe('Color', function(){
-  describe('.rgb()', function(){
+  describe('.rgba()', function(){
     before(function(){
-      this.color = Color.rgb(1, 2, 3);
+      this.color = Color.rgba(1, 2, 3, 0.5);
     });
 
-    it('has correct rgb values', function(){
-      expect(this.color.rgb()).to.eql([1, 2, 3]);
+    it('has correct rgba values', function(){
+      expect(this.color.rgba()).to.eql([1, 2, 3, 0.5]);
     });
 
-    it('has the correct hex value', function(){
-      expect(this.color.hex()).to.equal('010203');
+    it('has the correct css value', function(){
+      expect(this.color.css()).to.equal('#010203');
     });
   });
 
   describe('inverse', function(){
-    it('is rgb', function(){
-      expect(Color.rgb(2, 1, 3).rgb()).to.eql([2, 1, 3]);
+    it('is rgba', function(){
+      expect(Color.rgba(2, 1, 3, 0.1).rgba()).to.eql([2, 1, 3, 0.1]);
     });
 
     it('is hex', function(){

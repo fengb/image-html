@@ -25,7 +25,7 @@ Pixels.fromImage = function(domImage){
       var g = imageData[i+1];
       var b = imageData[i+2];
       var a = imageData[i+3];
-      colors[row][col] = Color.rgb(r,g,b,a);
+      colors[row][col] = Color.rgba(r,g,b,a);
     }
   }
 
