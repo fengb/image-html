@@ -11,9 +11,22 @@ describe('Color', function(){
     it('has correct rgba values', function(){
       expect(this.color.rgba()).to.eql([1, 2, 3, 0.5]);
     });
+  });
 
-    it('has the correct css value', function(){
-      expect(this.color.css()).to.equal('#010203');
+  describe('#css()', function(){
+    it('is "#010203" for rgb(1, 2, 3)', function(){
+      var color = Color.rgb(1, 2, 3);
+      expect(color.css()).to.eql('#010203');
+    });
+
+    it('is "rgba(3,4,6,0.5)" for rgba(3, 4, 6, 0.5)', function(){
+      var color = Color.rgba(3, 4, 6, 0.5);
+      expect(color.css()).to.eql('rgba(3,4,6,0.5)');
+    });
+
+    it('is "transparent" for rgba(9, 8, 7, 0)', function(){
+      var color = Color.rgba(9, 8, 7, 0);
+      expect(color.css()).to.eql('transparent');
     });
   });
 
