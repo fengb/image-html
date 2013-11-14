@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-$BAKE raw bin/image-html src
+$BAKE -q raw bin/image-html src

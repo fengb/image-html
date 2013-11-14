@@ -2,4 +2,4 @@
 
 
 $BAKE dist
-$BAKE raw bin/image-html-phantomjs min
+$BAKE -q raw bin/image-html-phantomjs min
