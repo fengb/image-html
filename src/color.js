@@ -35,7 +35,7 @@ Color.prototype.css = function(){
     case 0:
       return 'transparent';
     default:
-      return util.format('rgba({0},{1},{2},{3})', this.r, this.g, this.b, this.a);
+      return util.format('rgba({0},{1},{2},{3})', this.r, this.g, this.b, util.round(this.a, 3));
   }
 };
 
