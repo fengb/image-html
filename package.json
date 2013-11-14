@@ -4,7 +4,7 @@
   "description": "Convert images to HTML",
   "author": "Benjamin Feng",
   "homepage": "https://github.com/fengb/image-html",
-  "version": "0.3.1",
+  "version": "0.3.2dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/fengb/image-html.git"
