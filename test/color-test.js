@@ -28,6 +28,11 @@ describe('Color', function(){
       var color = Color.rgba(9, 8, 7, 0);
       expect(color.css()).to.eql('transparent');
     });
+
+    it('is "rgba(6,8,4,0.333)" for rgba(6, 8, 4, 1/3)', function(){
+      var color = Color.rgba(6, 8, 4, 1/3);
+      expect(color.css()).to.eql('rgba(6,8,4,0.333)');
+    });
   });
 
   describe('inverse', function(){

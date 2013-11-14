@@ -3,14 +3,33 @@ var util = require('../src/util');
 
 
 describe('format()', function(){
-  it('based on position', function(){
+  it('is based on position', function(){
     var out = util.format('This is testing {0} for {1}.', 'foo', 'bar');
     expect(out).to.equal('This is testing foo for bar.');
   });
 
-  it('same value correctly', function(){
+  it('formats same value correctly', function(){
     var out = util.format('{0} {0} {1} {0}', 'foo', 'bar');
     expect(out).to.equal('foo foo bar foo');
+  });
+});
+
+
+describe('round()', function(){
+  before(function(){
+    this.num = 12+2/3;
+  });
+
+  it('rounds to nearest integer', function(){
+    expect(util.round(this.num)).to.eql(13);
+  });
+
+  it('rounds to nearest digit', function(){
+    expect(util.round(this.num, 2)).to.eql(12.67);
+  });
+
+  it('rounds to nearest negative digit', function(){
+    expect(util.round(this.num, -1)).to.eql(10);
   });
 });
 
