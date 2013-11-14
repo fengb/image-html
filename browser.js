@@ -1,1 +1,1 @@
-window.ImageHtml = require('./src/image-html');
+window.ImageHtml = require('./src/image-html.min');

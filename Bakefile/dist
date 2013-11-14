@@ -2,8 +2,6 @@
 
 
 mkdir -p dist
-outfile=dist/image-html.js
-minfile=dist/image-html.min.js
 
 
 function var(){
@@ -11,13 +9,15 @@ function var(){
 }
 
 function banner(){
-  echo "/*! `var title` v`var version` - `var homepage` */"
+  echo "/*! `var title`$1 v`var version` - `var homepage` */"
 }
 
 
+outfile=dist/image-html.all.js
+banner '.all' >$outfile
+node_modules/.bin/browserify browser.all.js | node_modules/.bin/uglifyjs --mangle --compress warnings=false >>$outfile
+
+
+outfile=dist/image-html.js
 banner >$outfile
-node_modules/.bin/browserify browser.js >>$outfile
-
-
-banner >$minfile
-node_modules/.bin/uglifyjs $outfile --mangle --compress warnings=false >>$minfile
+node_modules/.bin/browserify browser.js | node_modules/.bin/uglifyjs --mangle --compress warnings=false >>$outfile
