@@ -50,7 +50,7 @@ describe('Color', function(){
       this.baseline = Color.rgb(9, 6, 3);
     });
 
-    it('does not equals null', function(){
+    it('does not equal null', function(){
       expect(this.baseline.equals(null)).to.be(false);
     });
 
@@ -60,6 +60,10 @@ describe('Color', function(){
 
     it('equals hex equivalent', function(){
       expect(this.baseline.equals(Color.hex('090603'))).to.be(true);
+    });
+
+    it('does not equal different alpha', function(){
+      expect(this.baseline.equals(Color.rgba(9, 6, 3, 0.2))).to.be(false);
     });
   });
 });

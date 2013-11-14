@@ -12,7 +12,8 @@ Color.prototype.equals = function(that){
   return this.constructor === (that && that.constructor) &&
          this.r === that.r &&
          this.g === that.g &&
-         this.b === that.b;
+         this.b === that.b &&
+         this.a === that.a;
 };
 
 Color.prototype.rgb = function(){
@@ -52,7 +53,7 @@ Color.rgba = function(r, g, b, a){
 };
 
 Color.hex = function(hex){
-  return new Color(parseInt(hex.substring(0, 2), 16),
+  return Color.rgb(parseInt(hex.substring(0, 2), 16),
                    parseInt(hex.substring(2, 4), 16),
                    parseInt(hex.substring(4, 6), 16));
 };
