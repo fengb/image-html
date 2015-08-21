@@ -63,13 +63,13 @@ Color.rgba = function(r, g, b, a){
 };
 
 Color.hex = function(hex){
-  var r = parseInt(hex.substring(0, 2), 16);
-  var g = parseInt(hex.substring(2, 4), 16);
-  var b = parseInt(hex.substring(4, 6), 16);
+  var r = parseInt(hex.substr(0, 2), 16);
+  var g = parseInt(hex.substr(2, 2), 16);
+  var b = parseInt(hex.substr(4, 2), 16);
   var a;
 
   if(hex.length > 6){
-    a = parseInt(hex.substring(6, 8), 16);
+    a = parseInt(hex.substr(6, 2), 16);
   }
   return Color.rgba(r, g, b, a);
 };
