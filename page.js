@@ -37,6 +37,11 @@
     desc.html.textContent = '— ' + output.html.textContent.length + ' bytes';
     output.css.disabled = false;
     output.html.disabled = false;
+
+    setTimeout(function(){
+      desc.css.textContent += ' (' + pako.gzip(output.css.textContent, { level: 2 }).length + ' gzipped)';
+      desc.html.textContent += ' (' + pako.gzip(output.html.textContent, { level: 2 }).length + ' gzipped)';
+    }, 1000);
   };
 
   output.css.onclick = output.html.onclick = function(evt){

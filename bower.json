@@ -1,0 +1,6 @@
+{
+  "name": "image-html",
+  "dependencies": {
+    "pako": "~0.2.7"
+  }
+}
