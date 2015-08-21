@@ -42,4 +42,8 @@
   output.css.onclick = output.html.onclick = function(evt){
     evt.target.select();
   }
+
+  if(img.display.src === ''){
+    img.display.src = 'example.png';
+  }
 })();
