@@ -43,6 +43,10 @@ describe('Color', function(){
     it('is hex', function(){
       expect(Color.hex('123456').hex()).to.equal('123456');
     });
+
+    it('is hex + alpha', function(){
+      expect(Color.hex('12345678').hex()).to.equal('12345678');
+    });
   });
 
   describe('#equals()', function(){
