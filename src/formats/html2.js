@@ -26,6 +26,8 @@ module.exports = function(pixels, id){
         }
       }
       return ret + '</p>';
-    }
+    },
+
+    js: function(){}
   };
 };

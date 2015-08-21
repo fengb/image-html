@@ -33,7 +33,9 @@ module.exports = function(pixels, id){
         ret += util.format('<i {0}></i\n>', classer.attrsFor(segment.styles));
       }
       return ret + '</p>';
-    }
+    },
+
+    js: function(){}
   };
 };
 

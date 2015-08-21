@@ -35,7 +35,9 @@ module.exports = function(pixels, id){
                          unrolledSegments.map(function(s){
                            return fmt.elementFor(s.styles);
                          }).join(''));
-    }
+    },
+
+    js: function(){}
   };
 };
 

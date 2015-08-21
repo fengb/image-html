@@ -3,7 +3,8 @@ var formats = {
   'html1': require('./formats/html1'),
   'html2': require('./formats/html2'),
   'html3': require('./formats/html3'),
-  'html4': require('./formats/html4')
+  'html4': require('./formats/html4'),
+  'js1': require('./formats/js1')
 };
 
 var ImageHtml = module.exports = {

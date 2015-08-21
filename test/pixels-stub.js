@@ -12,7 +12,7 @@ Pixels.stub = function(arrayHexes){
       matrix[row][col] = Color.hex(hexes[col]);
     }
   }
-  return new Pixels(matrix);
+  return Pixels(matrix);
 };
 
 
