@@ -1,8 +1,8 @@
 var expect = require('expect.js');
-var formatter = require('../../src/formats/04');
+var formatter = require('../../src/formats/html4');
 
 
-describe('04.Aggregator', function(){
+describe('html4.Aggregator', function(){
   describe('.tags', function(){
     it('does nothing for single uses', function(){
       var agg = formatter.Aggregator([['top: 0']]);
