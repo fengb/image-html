@@ -16,7 +16,7 @@ function jsOutput(){
         pixelImage.data[0] = rgb[0];
         pixelImage.data[1] = rgb[1];
         pixelImage.data[2] = rgb[2];
-        pixelImage.data[3] = rgb[3] * 255;
+        pixelImage.data[3] = rgb[3];
         ctx.putImageData(pixelImage, col, row);
       }
     }

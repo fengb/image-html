@@ -31,12 +31,12 @@ function hexify(num){
 
 Color.prototype.css = function(){
   switch(this.a){
-    case 1:
+    case 255:
       return '#' + this.hex();
     case 0:
       return 'transparent';
     default:
-      return util.format('rgba({0},{1},{2},{3})', this.r, this.g, this.b, util.round(this.a, 3));
+      return util.format('rgba({0},{1},{2},{3})', this.r, this.g, this.b, util.round(this.a / 255, 3));
   }
 };
 
@@ -45,7 +45,7 @@ Color.prototype.hex = function(){
 };
 
 Color.rgb = function(r, g, b){
-  return new Color(r, g, b, 1);
+  return new Color(r, g, b, 255);
 };
 
 Color.rgba = function(r, g, b, a){
