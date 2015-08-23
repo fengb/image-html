@@ -1,9 +1,10 @@
 var Pixels = require('./pixels');
 var formats = {
-  '01': require('./formats/01'),
-  '02': require('./formats/02'),
-  '03': require('./formats/03'),
-  '04': require('./formats/04')
+  'html1': require('./formats/html1'),
+  'html2': require('./formats/html2'),
+  'html3': require('./formats/html3'),
+  'html4': require('./formats/html4'),
+  'js1': require('./formats/js1')
 };
 
 var ImageHtml = module.exports = {
@@ -12,7 +13,7 @@ var ImageHtml = module.exports = {
   },
 
   convert: function(image, id, format){
-    format = format || '04';
+    format = format || 'html4';
     var pixels = Pixels.fromImage(image);
     return formats[format](pixels, id);
   }

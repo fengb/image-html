@@ -2,12 +2,9 @@ var Color = require('./color');
 var Canvas = require('canvas-browserify');
 
 var Pixels = module.exports = function(colorsMatrix){
-  this.rows = colorsMatrix.length;
-  this.cols = colorsMatrix[0].length;
-
-  for(var row=0; row < this.rows; row++){
-    this[row] = colorsMatrix[row];
-  }
+  colorsMatrix.rows = colorsMatrix.length;
+  colorsMatrix.cols = colorsMatrix[0].length;
+  return colorsMatrix;
 };
 
 Pixels.fromImage = function(domImage){
@@ -24,10 +21,10 @@ Pixels.fromImage = function(domImage){
       var r = imageData[i];
       var g = imageData[i+1];
       var b = imageData[i+2];
-      var a = imageData[i+3]/255;
+      var a = imageData[i+3];
       colors[row][col] = Color.rgba(r,g,b,a);
     }
   }
 
-  return new Pixels(colors);
+  return Pixels(colors);
 };

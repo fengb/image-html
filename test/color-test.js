@@ -19,8 +19,8 @@ describe('Color', function(){
       expect(color.css()).to.eql('#010203');
     });
 
-    it('is "rgba(3,4,6,0.5)" for rgba(3, 4, 6, 0.5)', function(){
-      var color = Color.rgba(3, 4, 6, 0.5);
+    it('is "rgba(3,4,6,0.5)" for rgba(3, 4, 6, 127.5)', function(){
+      var color = Color.rgba(3, 4, 6, 127.5);
       expect(color.css()).to.eql('rgba(3,4,6,0.5)');
     });
 
@@ -29,9 +29,9 @@ describe('Color', function(){
       expect(color.css()).to.eql('transparent');
     });
 
-    it('is "rgba(6,8,4,0.333)" for rgba(6, 8, 4, 1/3)', function(){
-      var color = Color.rgba(6, 8, 4, 1/3);
-      expect(color.css()).to.eql('rgba(6,8,4,0.333)');
+    it('is "rgba(6,8,4,0.498)" for rgba(6, 8, 4, 127)', function(){
+      var color = Color.rgba(6, 8, 4, 127);
+      expect(color.css()).to.eql('rgba(6,8,4,0.498)');
     });
   });
 
@@ -42,6 +42,10 @@ describe('Color', function(){
 
     it('is hex', function(){
       expect(Color.hex('123456').hex()).to.equal('123456');
+    });
+
+    it('is hex + alpha', function(){
+      expect(Color.hex('12345678').hex()).to.equal('12345678');
     });
   });
 
