@@ -47,8 +47,8 @@ module.exports = function(pixels, id){
         return hexes.join(',');
       });
 
-      return format("<canvas width='{0}' height='{1}' data-image-html-js1='{2}'></canvas>",
-                    pixels.cols, pixels.rows, JSON.stringify(rgbaPixels));
+      return format("<canvas id='{0}' width='{1}' height='{2}' data-image-html-js1='{3}'></canvas>",
+                    id, pixels.cols, pixels.rows, JSON.stringify(rgbaPixels));
     },
 
     js: function(){
