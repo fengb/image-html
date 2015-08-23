@@ -10,10 +10,10 @@ function jsOutput(){
     return parseInt(hexBlob.substr(blobStart, 2), 16);
   }
 
-  var canvases = document.querySelectorAll('canvas[data-image-html]');
+  var canvases = document.querySelectorAll('canvas[data-image-html-js1]');
   for(var i = 0; i < canvases.length; i++){
     var canvas = canvases[i];
-    var pixels = JSON.parse(canvas.getAttribute('data-image-html'));
+    var pixels = JSON.parse(canvas.getAttribute('data-image-html-js1'));
 
     var ctx = canvas.getContext('2d');
     var pixelImage = ctx.createImageData(1,1);
@@ -36,7 +36,7 @@ function jsOutput(){
 module.exports = function(pixels, id){
   return {
     css: function(){
-      return 'canvas[data-image-html] { vertical-align: top }';
+      return 'canvas[data-image-html-js1] { vertical-align: top }';
     },
 
     html: function(){
@@ -47,7 +47,7 @@ module.exports = function(pixels, id){
         return hexes.join(',');
       });
 
-      return format("<canvas width='{0}' height='{1}' data-image-html='{2}'></canvas>",
+      return format("<canvas width='{0}' height='{1}' data-image-html-js1='{2}'></canvas>",
                     pixels.cols, pixels.rows, JSON.stringify(rgbaPixels));
     },
 
