@@ -35,11 +35,8 @@ function jsOutput(){
 
 module.exports = function(pixels, id){
   return {
-    css: function(){
-      return 'canvas[data-image-html-js1] { vertical-align: top }';
-    },
-
-    html: function(){
+    css: 'canvas[data-image-html-js1] { vertical-align: top }',
+    html: (function(){
       var rgbaPixels = pixels.map(function(row){
         var hexes = row.map(function(col){
           return col.hex();
@@ -49,10 +46,8 @@ module.exports = function(pixels, id){
 
       return format("<canvas id='{0}' width='{1}' height='{2}' data-image-html-js1='{3}'></canvas>",
                     id, pixels.cols, pixels.rows, JSON.stringify(rgbaPixels));
-    },
+    })(),
 
-    js: function(){
-      return format('({0})()', jsOutput.toString());
-    }
+    js: format('({0})()', jsOutput.toString())
   };
 };

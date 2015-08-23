@@ -6,13 +6,11 @@ module.exports = function(pixels, id){
   var pixelSegments = PixelSegments(pixels);
 
   return {
-    css: function(){
-      return format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n' +
-                    '#{0} i { float: left; width: 1px; height: 1px; }',
-                    id, pixels.cols);
-    },
+    css: format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n' +
+                '#{0} i { float: left; width: 1px; height: 1px; }',
+                id, pixels.cols),
 
-    html: function(){
+    html: (function(){
       var ret = format('<p id="{0}"\n>', id);
       for(var row=0; row < pixelSegments.length; row++){
         for(var segmentNum=0; segmentNum < pixelSegments[row].length; segmentNum++){
@@ -26,8 +24,8 @@ module.exports = function(pixels, id){
         }
       }
       return ret + '</p>';
-    },
+    })(),
 
-    js: function(){}
+    js: null
   };
 };

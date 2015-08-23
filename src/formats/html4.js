@@ -21,23 +21,18 @@ module.exports = function(pixels, id){
   var fmt = Formatter.fromStylesElements(styles);
 
   return {
-    css: function(){
-      return util.format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n'+
-                         '#{0} * { float: left; height: 1px; vertical-align: baseline; margin: 0; padding: 0; border-collapse: collapse }\n'+
-                         '#{0} *:before { content: "" }\n'+
-                         '#{0} *:after { content: "" }\n',
-                         id, pixels.cols) +
-             fmt.styles('#'+id).join('\n');
-    },
+    css: util.format('#{0} { width: {1}px; margin: 0; overflow: hidden }\n'+
+                     '#{0} * { float: left; height: 1px; vertical-align: baseline; margin: 0; padding: 0; border-collapse: collapse }\n'+
+                     '#{0} *:before, #{0}:after { content: "" }\n',
+                     id, pixels.cols) +
+         fmt.styles('#'+id).join('\n'),
 
-    html: function(){
-      return util.format('<div id="{0}"\n>{1}</div>', id,
-                         unrolledSegments.map(function(s){
-                           return fmt.elementFor(s.styles);
-                         }).join(''));
-    },
+    html: util.format('<div id="{0}"\n>{1}</div>', id,
+                      unrolledSegments.map(function(s){
+                        return fmt.elementFor(s.styles);
+                      }).join('')),
 
-    js: function(){}
+    js: null
   };
 };
 

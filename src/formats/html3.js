@@ -19,23 +19,21 @@ module.exports = function(pixels, id){
   var classer = new CssClasser(styles);
 
   return {
-    css: function(){
-      return util.format('#{0} { width: {1}px; margin: 0; overflow: hidden; }\n' +
-                         '#{0} i { float: left; height: 1px; }\n',
-                         id, pixels.cols) +
-             classer.classes('#'+id).join('\n');
-    },
+    css: util.format('#{0} { width: {1}px; margin: 0; overflow: hidden; }\n' +
+                     '#{0} i { float: left; height: 1px; }\n',
+                     id, pixels.cols) +
+         classer.classes('#'+id).join('\n'),
 
-    html: function(){
+    html: (function(){
       var ret = util.format('<p id="{0}"\n>', id);
       for(var i=0; i < unrolledSegments.length; i++){
         var segment = unrolledSegments[i];
         ret += util.format('<i {0}></i\n>', classer.attrsFor(segment.styles));
       }
       return ret + '</p>';
-    },
+    })(),
 
-    js: function(){}
+    js: null
   };
 };
 
