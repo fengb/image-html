@@ -10,16 +10,20 @@
     format: document.getElementById('format'),
     imageId: document.getElementById('image-id'),
   };
-  var img = {
-    display: document.getElementById('display')
+  var preview = {
+    css: document.getElementById('preview-css'),
+    html: document.getElementById('preview-html'),
+    js: document.getElementById('preview-js'),
   };
   var output = {
     css: document.getElementById('css'),
-    html: document.getElementById('html')
+    html: document.getElementById('html'),
+    js: document.getElementById('js'),
   };
   var desc = {
     css: document.getElementById('css-desc'),
-    html: document.getElementById('html-desc')
+    html: document.getElementById('html-desc'),
+    js: document.getElementById('js-desc'),
   };
 
   ImageHtml.formats().forEach(function(format, index){
@@ -30,29 +34,37 @@
   input.upload.onchange = function(){
     var reader = new FileReader();
     reader.onload = function(evt){
-      img.display.src = evt.target.result;
+      imageData = evt.target.result;
+      updateImage();
     }
     reader.readAsDataURL(input.upload.files[0]);
   };
 
-  input.imageId.onchange = input.format.onchange = img.display.onload = function(evt){
-    var out = ImageHtml.convert(img.display, input.imageId.value, input.format.value);
-    output.css.textContent = out.css();
-    output.html.textContent = out.html();
-    desc.css.textContent = '— ' + output.css.textContent.length + ' bytes';
-    desc.html.textContent = '— ' + output.html.textContent.length + ' bytes';
-    output.css.disabled = false;
-    output.html.disabled = false;
-
-    gzipWorker.postMessage({ id: desc.css.id, body: output.css.textContent });
-    gzipWorker.postMessage({ id: desc.html.id, body: output.html.textContent });
-  };
-
-  output.css.onclick = output.html.onclick = function(evt){
+  output.css.onclick = output.html.onclick = output.js.onclick = function(evt){
     evt.target.select();
   }
 
-  if(img.display.src === ''){
-    img.display.src = 'example.png';
-  }
+  var imageData = 'example.png';
+  function updateImage(){
+    ImageHtml.convertData(imageData, input.imageId.value, input.format.value, function(out){
+      preview.css.textContent = output.css.textContent = out.css;
+      preview.html.innerHTML = output.html.textContent = out.html;
+      output.js.textContent = out.js;
+      if(out.js){
+        eval(out.js);
+      }
+
+      desc.css.textContent = '— ' + output.css.textContent.length + ' bytes';
+      desc.html.textContent = '— ' + output.html.textContent.length + ' bytes';
+      desc.js.textContent = '— ' + output.js.textContent.length + ' bytes';
+
+      gzipWorker.postMessage({ id: desc.css.id, body: output.css.textContent });
+      gzipWorker.postMessage({ id: desc.html.id, body: output.html.textContent });
+      gzipWorker.postMessage({ id: desc.js.id, body: output.js.textContent });
+    });
+  };
+
+  input.imageId.onchange = input.format.onchange = updateImage;
+
+  updateImage();
 })();
