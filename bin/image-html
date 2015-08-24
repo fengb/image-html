@@ -3,11 +3,10 @@
 
 var fs = require('fs');
 var ImageHtml = require('..');
-var Image = require('canvas-browserify').Image;
 
 
 
-var opts = function(args){
+var opts = (function(args){
   var opts = {name: args[0], args: []};
   for(var i=1; i < args.length; i++){
     if(args[i][0] == '-'){
@@ -23,35 +22,31 @@ var opts = function(args){
     }
   }
   return opts;
-}(process.argv);
+})(process.argv);
 
 
-var data = fs.readFileSync(opts.args[1]);
+ImageHtml.convertFile(opts.args[1], 'a', opts.format, function(output){
+  var html = ['<!DOCTYPE html>',
+              '<html>',
+              '<head>',
+              '<title>'+opts.args[1]+'</title>',
+              '<style>',
+              output.css,
+              '</style>',
+              '</head>',
+              '<body style="margin:0">',
+              output.html,
+              '<script>',
+              output.js,
+              '</script>',
+              '</body>',
+              '</html>'].join('\n');
 
-
-var img = new Image();
-img.src = data;
-var output = ImageHtml.convert(img, 'a', opts.format);
-var html = ['<!DOCTYPE html>',
-            '<html>',
-            '<head>',
-            '<title>'+opts.args[1]+'</title>',
-            '<style>',
-            output.css,
-            '</style>',
-            '</head>',
-            '<body style="margin:0">',
-            output.html,
-            '<script>',
-            output.js,
-            '</script>',
-            '</body>',
-            '</html>'].join('\n');
-
-if(opts.args[2]){
-  fs.writeFile(opts.args[2], html, function(err){
-    if(err) throw err;
-  });
-} else {
-  console.log(html);
-}
+  if(opts.args[2]){
+    fs.writeFile(opts.args[2], html, function(err){
+      if(err) throw err;
+    });
+  } else {
+    console.log(html);
+  }
+});

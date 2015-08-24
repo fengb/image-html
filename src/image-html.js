@@ -1,3 +1,4 @@
+var Image = require('canvas-browserify').Image;
 var Pixels = require('./pixels');
 var formats = {
   'html1': require('./formats/html1'),
@@ -16,5 +17,11 @@ var ImageHtml = module.exports = {
     format = format || 'html4';
     var pixels = Pixels.fromImage(image);
     return formats[format](pixels, id);
+  },
+
+  convertData: function(data, id, format){
+    var img = new Image();
+    img.src = data;
+    return ImageHtml.convert(img, id, format);
   }
 };
