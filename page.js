@@ -1,4 +1,10 @@
 (function(){
+  var gzipWorker = window.gzipWorker = new Worker('gzip-worker.js');
+  gzipWorker.onmessage = function(event){
+    var gzipDisplay = ' (' + event.data.body.length + ' gzipped)';
+    document.getElementById(event.data.id).textContent += gzipDisplay;
+  };
+
   var input = {
     upload: document.getElementById('upload'),
     format: document.getElementById('format'),
@@ -38,10 +44,8 @@
     output.css.disabled = false;
     output.html.disabled = false;
 
-    setTimeout(function(){
-      desc.css.textContent += ' (' + pako.gzip(output.css.textContent, { level: 2 }).length + ' gzipped)';
-      desc.html.textContent += ' (' + pako.gzip(output.html.textContent, { level: 2 }).length + ' gzipped)';
-    }, 1000);
+    gzipWorker.postMessage({ id: desc.css.id, body: output.css.textContent });
+    gzipWorker.postMessage({ id: desc.html.id, body: output.html.textContent });
   };
 
   output.css.onclick = output.html.onclick = function(evt){
