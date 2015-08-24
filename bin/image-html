@@ -26,27 +26,11 @@ var opts = (function(args){
 
 
 ImageHtml.convertFile(opts.args[1], 'a', opts.format, function(output){
-  var html = ['<!DOCTYPE html>',
-              '<html>',
-              '<head>',
-              '<title>'+opts.args[1]+'</title>',
-              '<style>',
-              output.css,
-              '</style>',
-              '</head>',
-              '<body style="margin:0">',
-              output.html,
-              '<script>',
-              output.js,
-              '</script>',
-              '</body>',
-              '</html>'].join('\n');
-
   if(opts.args[2]){
-    fs.writeFile(opts.args[2], html, function(err){
+    fs.writeFile(opts.args[2], output.page(), function(err){
       if(err) throw err;
     });
   } else {
-    console.log(html);
+    console.log(output.page());
   }
 });

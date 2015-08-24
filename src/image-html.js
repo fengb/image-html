@@ -16,12 +16,41 @@ var ImageHtml = module.exports = {
   convert: function(image, id, format){
     format = format || 'html4';
     var pixels = Pixels.fromImage(image);
-    return formats[format](pixels, id);
+    var output = formats[format](pixels, id);
+
+    output.page = function(){
+      return [
+        '<!DOCTYPE html>',
+        '<html>',
+        '<head>',
+        '<style>',
+        output.css,
+        '</style>',
+        '</head>',
+        '<body style="margin:0">',
+        output.html,
+        '</body>',
+        '<script>',
+        output.js,
+        '</script>',
+        '</html>'
+      ].join('\n');
+    };
+
+    return output;
   },
 
-  convertData: function(data, id, format){
+  convertData: function(data, id, format, callback){
+    if(typeof format === 'function'){
+      callback = format;
+      format = null;
+    }
+
     var img = new Image();
+    img.onload = function(){
+      var output = ImageHtml.convert(img, id, format);
+      callback(output);
+    };
     img.src = data;
-    return ImageHtml.convert(img, id, format);
   }
 };

@@ -38,37 +38,20 @@ page.injectJs(opts.script || 'dist/image-html.all.js');
 
 
 page.evaluate(function(imageBase64, format){
-  var img = new Image();
-  img.onload = function(){
-    var out = ImageHtml.convert(img, 'a', format);
-    window.output = {
-      css: out.css(),
-      html: out.html()
-    };
-  };
-  img.src = 'data:image/png;base64,' + imageBase64;
+  ImageHtml.convertData('data:image/png;base64,' + imageBase64, 'a', format, function(output){
+    window.outputPage = output.page();
+  });
 }, imageBase64, opts.format);
 
 
 setInterval(function(){
-  var output = page.evaluate(function(){
-    return window.output;
+  var outputPage = page.evaluate(function(){
+    return window.outputPage;
   });
 
-  if(output) {
+  if(outputPage) {
     var outfile = opts.args[1] ? fs.open(opts.args[1], 'w') : sys.stdout;
-    outfile.write(['<!DOCTYPE html>',
-                   '<html>',
-                   '<head>',
-                   '<title>'+opts.args[1]+'</title>',
-                   '<style>',
-                   output.css,
-                   '</style>',
-                   '</head>',
-                   '<body style="margin:0">',
-                   output.html,
-                   '</body>',
-                   '</html>'].join('\n'));
+    outfile.write(outputPage);
     phantom.exit();
   }
 }, 100);
