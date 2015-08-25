@@ -47,12 +47,9 @@
   var imageData = 'example.png';
   function updateImage(){
     ImageHtml.convertData(imageData, input.imageId.value, input.format.value, function(out){
-      preview.css.textContent = output.css.textContent = out.css;
-      preview.html.innerHTML = output.html.textContent = out.html;
+      output.css.textContent = out.css;
+      output.html.textContent = out.html;
       output.js.textContent = out.js;
-      if(out.js){
-        eval(out.js);
-      }
 
       desc.css.textContent = '— ' + output.css.textContent.length + ' bytes';
       desc.html.textContent = '— ' + output.html.textContent.length + ' bytes';
@@ -61,6 +58,14 @@
       gzipWorker.postMessage({ id: desc.css.id, body: output.css.textContent });
       gzipWorker.postMessage({ id: desc.html.id, body: output.html.textContent });
       gzipWorker.postMessage({ id: desc.js.id, body: output.js.textContent });
+
+      setTimeout(function(){
+        preview.css.textContent = out.css;
+        preview.html.innerHTML = out.html;
+        if(out.js){
+          eval(out.js);
+        }
+      }, 100);
     });
   };
 
