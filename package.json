@@ -15,7 +15,7 @@
     "node": "~0.10.0"
   },
   "dependencies": {
-    "canvas": "~1.2.7"
+    "canvas": "~1.3.9"
   },
   "devDependencies": {
     "canvas-browserify": "~1.1.3",
